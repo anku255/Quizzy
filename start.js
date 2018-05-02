@@ -1,5 +1,17 @@
+const mongoose = require('mongoose');
+
 // import environment variables
 require('dotenv').config({ path: 'variables.env' });
+
+// connect to the database
+mongoose.connect(process.env.DATABASE);
+mongoose.Promise = global.Promise;
+mongoose.connection.on('error', err => {
+  console.log(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
+});
+
+// require models
+require('./models/User');
 
 // start the app
 const app = require('./app');
