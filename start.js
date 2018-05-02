@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-auto-increment');
 
 // import environment variables
 require('dotenv').config({ path: 'variables.env' });
@@ -10,9 +11,14 @@ mongoose.connection.on('error', err => {
   console.log(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
 });
 
+// Initialize autoIncrement
+autoIncrement.initialize(mongoose.connection);
+
 // require models
 require('./models/User');
 require('./models/Question');
+require('./models/Quiz');
+require('./models/CurrentQuiz');
 
 // start the app
 const app = require('./app');
