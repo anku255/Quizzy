@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -16,6 +17,10 @@ const styles = {
   menuButton: {
     marginLeft: -12,
     marginRight: 30
+  },
+  link: {
+    color: 'white',
+    textDecoration: 'none'
   }
 };
 
@@ -65,7 +70,9 @@ class Header extends Component {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="title" color="inherit" style={styles.flex}>
-              Quizzy
+              <Link to="/" style={styles.link}>
+                Quizzy
+              </Link>
             </Typography>
             {this.renderNavlinks()}
           </Toolbar>
