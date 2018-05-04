@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
+import Header from './Header';
 
 class App extends Component {
+  componentDidMount = () => {
+    this.props.fetchUser();
+  };
+
   render() {
-    return <div>Hello, World! This is going to be Quizzy!!</div>;
+    return <Header />;
   }
 }
 
-export default App;
+export default connect(null, actions)(App);
