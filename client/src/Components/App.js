@@ -5,6 +5,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import * as actions from '../actions';
 import Header from './Header';
 import Landing from './Landing';
+import Quiz from './Quiz/Quiz';
 
 class App extends Component {
   componentDidMount = () => {
@@ -17,6 +18,7 @@ class App extends Component {
         <div>
           <Header />
           <Route exact path="/" component={Landing} />
+          <Route path="/current" component={Quiz} />
         </div>
       </BrowserRouter>
     );
