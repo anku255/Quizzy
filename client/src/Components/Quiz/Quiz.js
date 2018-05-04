@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import * as actions from '../../actions';
+import { connect } from 'react-redux';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
@@ -28,37 +30,54 @@ const styles = {
 
 // prettier-ignore
 class Quiz extends Component {
+  componentDidMount = () => {
+    this.props.fetchCurrentQuiz();
+  }
+
   render() {
     return (
       <div style={styles.root}>
 
         {/* Grid Container */}
         <Grid container style={styles.gridContainer}>
-          <Grid item xs={12}>
+          {
+            this.props.currentQuiz.map(Quiz => {
+              return <Grid key={Quiz._id} item xs={12}>
 
-           {/* One Grid Item consist of One Paper Component */}
-            <Paper style={styles.paper} elevation={4}>
+                  {/* One Grid Item consist of One Paper Component */}
+                  <Paper style={styles.paper} elevation={4}>
 
-              {/* Question Text (h4) */}
-              <Typography variant="headline" component="h4">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam
-                quam eos, quibusdam minima consectetur quod.
-              </Typography>
+                    {/* Question Text (h4) */}
+                    <Typography variant="headline" component="h4">
+                      {Quiz.text}
+                    </Typography>
 
-              {/* Choices are wrapped inside FromControl Component */}
-              <FormControl component="fieldset">
-                <FormLabel component="legend">Options:</FormLabel>
-                <FormGroup>
-                  <FormControlLabel control={<Checkbox />} label="Choice 1" />
-                </FormGroup>
-              </FormControl>
+                    {/* Choices are wrapped inside FromControl Component */}
+                    <FormControl component="fieldset">
+                      <FormLabel component="legend">
+                        Options:
+                      </FormLabel>
+                      <FormGroup>
+                        {Quiz.choices.map((choice) => {
+                          return <FormControlLabel key={choice} control={<Checkbox />} label={choice} />
+                        })}
+                      </FormGroup>
+                    </FormControl>
+                  </Paper>
+                </Grid>;
+            })
+          }
 
-            </Paper>
-          </Grid>
         </Grid>
       </div>
     );
   }
 }
 
-export default Quiz;
+function mapStateToProps(state) {
+  return {
+    currentQuiz: state.quiz.currentQuiz
+  };
+}
+
+export default connect(mapStateToProps, actions)(Quiz);
