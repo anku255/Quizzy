@@ -44,3 +44,10 @@ exports.setCurrentQuiz = async (req, res) => {
   }
   res.json(currentQuiz);
 };
+
+// Submit Current Quiz
+exports.submitCurrentQuiz = async (req, res) => {
+  console.log('inside sumbit route');
+  
+  res.send(req.user);
+};

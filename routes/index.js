@@ -37,4 +37,6 @@ router.post('/api/setCurrentQuiz', quizController.setCurrentQuiz);
 
 router.get('/api/quiz/current', quizController.getCurrentQuiz);
 
+router.post('/api/quiz/current', quizController.submitCurrentQuiz);
+
 module.exports = router;
