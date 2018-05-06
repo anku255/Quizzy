@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import * as actions from '../../actions';
+import { connect } from 'react-redux';
 
 class Answers extends Component {
   constructor(props) {
@@ -40,7 +42,7 @@ class Answers extends Component {
     if (!this.state.responseSubmitted) {
       const result = this.evalResponse();
       // call the action for sending response to server
-
+      this.props.submitQuizResponse(result);
       this.setState({
         responseSubmitted: true
       });
@@ -52,4 +54,4 @@ class Answers extends Component {
   }
 }
 
-export default Answers;
+export default connect(null, actions)(Answers);
