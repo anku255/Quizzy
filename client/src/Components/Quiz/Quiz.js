@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import * as actions from '../../actions';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormControl, FormLabel, FormControlLabel } from 'material-ui/Form';
+import Button from 'material-ui/Button';
 
 // CSS
 const styles = {
@@ -20,6 +22,9 @@ const styles = {
     textAlign: 'left',
     padding: 16,
     marginTop: 5
+  },
+  submitBtn: {
+    color: 'white'
   }
 };
 
@@ -56,18 +61,13 @@ class Quiz extends Component {
   };
 
   render() {
-    return (
-      <div style={styles.root}>
-
+    return <div style={styles.root}>
         {/* Grid Container */}
         <Grid container style={styles.gridContainer}>
           {this.props.currentQuiz.map((Quiz, quesIndex) => {
-            return (
-              <Grid key={Quiz._id} item xs={12}>
-
+            return <Grid key={Quiz._id} item xs={12}>
                 {/* One Grid Item consist of One Paper Component */}
                 <Paper style={styles.paper} elevation={4}>
-
                   {/* Question Text (h4) */}
                   <Typography variant="headline" component="h4">
                     {Quiz.text}
@@ -78,31 +78,31 @@ class Quiz extends Component {
                     <FormLabel component="legend">Options:</FormLabel>
 
                     {/* Radio buttons are grouped within a RadioGroup */}
-                    <RadioGroup
-                      onChange={this.handleChange}
-                      value={this.state.radioBtnValue[quesIndex]}
-                    >
+                    <RadioGroup onChange={this.handleChange} value={this.state.radioBtnValue[quesIndex]}>
                       {Quiz.choices.map((choice, index) => {
-                        return (
-                          <FormControlLabel
-                            key={choice}
-                            value={`${Quiz._id} ${index} ${quesIndex}`}
-                            control={<Radio />}
-                            label={choice}
-                          />
-                        );
+                        return <FormControlLabel key={choice} value={`${Quiz._id} ${index} ${quesIndex}`} control={<Radio />} label={choice} />;
                       })}
                     </RadioGroup>
-
                   </FormControl>
-
                 </Paper>
-              </Grid>
-            );
+              </Grid>;
           })}
+
+          <Button variant="raised" color="primary">
+            <Link to={{
+              pathname: '/current/answers',
+              state: {
+                response: this.state.response,
+                currentQuiz: this.props.currentQuiz
+              }
+              }}
+              style={styles.submitBtn}
+              >
+              Submit
+            </Link>
+          </Button>
         </Grid>
-      </div>
-    );
+      </div>;
   }
 }
 
