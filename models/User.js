@@ -7,12 +7,10 @@ const userSchema = new Schema({
   name: String,
   email: String,
   semester: Number,
-  answered: [
-    {
-      questionId: { type: Schema.Types.ObjectId, ref: 'Question' },
-      correctCount: Number
-    }
-  ]
+  quizResponse: {
+    type: Schema.Types.ObjectId,
+    ref: 'QuizResponse'
+  }
 });
 
 module.exports = mongoose.model('User', userSchema);
