@@ -12,7 +12,9 @@ const questionSchema = new Schema({
     type: Number,
     required: true
   },
-  ansDescription: String
+  ansDescription: String,
+  semester: Number,
+  category: String
 });
 
 module.exports = mongoose.model('Question', questionSchema);
