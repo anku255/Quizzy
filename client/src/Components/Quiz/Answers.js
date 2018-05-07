@@ -30,6 +30,7 @@ class Answers extends Component {
 
       result.push({
         quesId: question._id,
+        category: question.category,
         correctAnswer,
         incorrectAnswer
       });
