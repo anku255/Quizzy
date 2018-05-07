@@ -48,6 +48,17 @@ exports.setCurrentQuiz = async (req, res) => {
 
 // Submit Current Quiz
 exports.submitCurrentQuiz = async (req, res) => {
+  // get currentQuiz from DB
+  const currentQuiz = await CurrentQuiz.findOne();
+
+  // If user has submitted already, return early
+  if (req.user.lastSubmission === currentQuiz._id.toString())
+    return res.json({ message: 'User has already submitted!', error: true });
+  else {
+    req.user.lastSubmission = currentQuiz._id.toString();
+    req.user.save();
+  }
+
   // Right Now, Only one category per quiz is supported
   const quizCategory = req.body[0]['category'];
 
@@ -92,5 +103,5 @@ exports.submitCurrentQuiz = async (req, res) => {
 
   quizResponse[quizCategory] = answerArray; // Update answerArray
   await quizResponse.save(); // save quizResponse object
-  res.json({ message: 'success' });
+  res.json({ message: 'success', error: false });
 };

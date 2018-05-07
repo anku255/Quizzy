@@ -10,7 +10,8 @@ const userSchema = new Schema({
   quizResponse: {
     type: Schema.Types.ObjectId,
     ref: 'QuizResponse'
-  }
+  },
+  lastSubmission: String
 });
 
 module.exports = mongoose.model('User', userSchema);
