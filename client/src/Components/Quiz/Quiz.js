@@ -12,6 +12,9 @@ const styles = {
     margin: '0 2%',
     flexGrow: 1
   },
+  gridContainer: {
+    textAlign: 'center'
+  },
   submitBtn: {
     color: 'white'
   }

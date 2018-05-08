@@ -7,9 +7,6 @@ import { FormControl, FormLabel, FormControlLabel } from 'material-ui/Form';
 
 // CSS
 const styles = {
-  gridContainer: {
-    textAlign: 'center'
-  },
   paper: {
     textAlign: 'left',
     padding: 16,
