@@ -63,7 +63,8 @@ class Quiz extends Component {
               pathname: '/current/answers',
               state: {
                 response: this.state.response,
-                currentQuiz: this.props.currentQuiz
+                currentQuiz: this.props.currentQuiz,
+                radioBtnValue: this.state.radioBtnValue
               }
               }}
               style={styles.submitBtn}

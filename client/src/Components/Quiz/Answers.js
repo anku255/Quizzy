@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import * as actions from '../../actions';
 import { connect } from 'react-redux';
+import Grid from 'material-ui/Grid';
+import Solution from './Solution';
+
+// CSS
+const styles = {
+  root: {
+    margin: '0 2%',
+    flexGrow: 1
+  }
+};
 
 class Answers extends Component {
   constructor(props) {
@@ -8,6 +18,7 @@ class Answers extends Component {
     this.state = {
       currentQuiz: this.props.location.state.currentQuiz,
       response: this.props.location.state.response,
+      radioBtnValue: this.props.location.state.radioBtnValue,
       responseSubmitted: false
     };
   }
@@ -51,7 +62,18 @@ class Answers extends Component {
   };
 
   render() {
-    return <div>Answers Component</div>;
+    return (
+      <div style={styles.root}>
+        {/* Grid Container */}
+        <Grid container style={styles.gridContainer}>
+          <Solution
+            currentQuiz={this.state.currentQuiz}
+            radioBtnValue={this.state.radioBtnValue}
+            response={this.state.response}
+          />
+        </Grid>
+      </div>
+    );
   }
 }
 
