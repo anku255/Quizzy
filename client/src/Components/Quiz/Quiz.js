@@ -17,7 +17,6 @@ const styles = {
   }
 };
 
-// prettier-ignore
 class Quiz extends Component {
   constructor(props) {
     super(props);
@@ -50,36 +49,45 @@ class Quiz extends Component {
   };
 
   render() {
-    return <div style={styles.root}>
-        {/* Grid Container */}
+    return (
+      <div style={styles.root}>
         <Grid container style={styles.gridContainer}>
-          <Question
-            currentQuiz={this.props.currentQuiz}
-            radioBtnValue={this.state.radioBtnValue}
-            handleChange={this.handleChange}
-          />
-          <Button variant="raised" color="primary">
-            <Link to={{
-              pathname: '/current/answers',
-              state: {
-                response: this.state.response,
-                currentQuiz: this.props.currentQuiz,
-                radioBtnValue: this.state.radioBtnValue
-              }
-              }}
-              style={styles.submitBtn}
-              >
-              Submit
-            </Link>
-          </Button>
+          {this.props.loading ? (
+            <div>Loading</div>
+          ) : (
+            <Grid item xs={12}>
+              <Question
+                currentQuiz={this.props.currentQuiz}
+                radioBtnValue={this.state.radioBtnValue}
+                handleChange={this.handleChange}
+              />
+              <Button variant="raised" color="primary">
+                <Link
+                  to={{
+                    pathname: '/current/answers',
+                    state: {
+                      response: this.state.response,
+                      currentQuiz: this.props.currentQuiz,
+                      radioBtnValue: this.state.radioBtnValue
+                    }
+                  }}
+                  style={styles.submitBtn}
+                >
+                  Submit
+                </Link>
+              </Button>
+            </Grid>
+          )}
         </Grid>
-      </div>;
+      </div>
+    );
   }
 }
 
 function mapStateToProps(state) {
   return {
-    currentQuiz: state.quiz.currentQuiz
+    currentQuiz: state.quiz.currentQuiz,
+    loading: state.quiz.loading
   };
 }
 
