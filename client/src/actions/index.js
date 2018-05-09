@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { FETCH_USER, FETCH_CURRENT_QUIZ, SUMBIT_QUIZ_RESPONSE } from './types';
+import {
+  FETCH_USER,
+  FETCH_CURRENT_QUIZ,
+  SUMBIT_QUIZ_RESPONSE,
+  SUMBIT_QUESTION
+} from './types';
 
 export const fetchUser = () => async dispatch => {
   const res = await axios.get('/api/current_user');
@@ -12,7 +17,12 @@ export const fetchCurrentQuiz = () => async dispatch => {
 };
 
 export const submitQuizResponse = data => async dispatch => {
-  console.log('submitQuizResponse action was called');
   const res = await axios.post('/api/quiz/current', data);
   dispatch({ type: SUMBIT_QUIZ_RESPONSE, payload: res.data });
+};
+
+export const submitQuestion = data => async dispatch => {
+  console.log('sumbitQuestion called');
+  const res = await axios.post('/api/question/new', data);
+  dispatch({ type: SUMBIT_QUESTION, payload: res.data });
 };

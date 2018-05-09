@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../actions';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import MenuItem from 'material-ui/Menu/MenuItem';
@@ -63,15 +65,17 @@ class QuestionForm extends Component {
       }
     }
 
-    const choices = [];
-    for (let i = 0; i < 4; i++) {
-      choices.push(this.state[`choice${i}`]);
-      delete this.state[`choice${i}`];
+    if (this.state.correctAnsIndex < 0 || this.state.correctAnsIndex > 3) {
+      return alert('CorrectAnsIndex should in the range (0,3) ');
     }
-    this.state.choices = choices;
 
-    // TODO
-    // call an action creator
+    const result = { ...this.state, choices: [] };
+    for (let i = 0; i < 4; i++) {
+      result.choices.push(this.state[`choice${i}`]);
+      delete result[`choice${i}`];
+    }
+
+    this.props.submitQuestion(this.state);
   }
 
   render() {
@@ -136,6 +140,7 @@ class QuestionForm extends Component {
                 className={classes.textField}
                 value={this.state.correctAnsIndex}
                 onChange={this.handleChange('correctAnsIndex')}
+                type="number"
                 margin="normal"
               />
             </Grid>
@@ -158,7 +163,7 @@ class QuestionForm extends Component {
               <TextField
                 id="select-category"
                 select
-                label="category"
+                label="Category"
                 className={classes.selectField}
                 value={this.state.category}
                 onChange={this.handleChange('category')}
@@ -196,4 +201,4 @@ class QuestionForm extends Component {
   }
 }
 
-export default withStyles(styles)(QuestionForm);
+export default connect(null, actions)(withStyles(styles)(QuestionForm));
