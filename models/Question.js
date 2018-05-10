@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-auto-increment');
 mongoose.Promise = global.Promise;
 const { Schema } = mongoose;
 
@@ -15,6 +16,11 @@ const questionSchema = new Schema({
   ansDescription: String,
   semester: Number,
   category: String
+});
+
+questionSchema.plugin(autoIncrement.plugin, {
+  model: 'Question',
+  field: 'index'
 });
 
 module.exports = mongoose.model('Question', questionSchema);

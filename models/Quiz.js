@@ -23,6 +23,4 @@ const quizSchema = new Schema({
   description: String
 });
 
-quizSchema.plugin(autoIncrement.plugin, { model: 'Quiz', field: 'index' });
-
 module.exports = mongoose.model('Quiz', quizSchema);
