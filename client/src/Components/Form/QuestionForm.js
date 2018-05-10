@@ -75,7 +75,7 @@ class QuestionForm extends Component {
       delete result[`choice${i}`];
     }
 
-    this.props.submitQuestion(this.state);
+    this.props.submitQuestion(result);
   }
 
   render() {
