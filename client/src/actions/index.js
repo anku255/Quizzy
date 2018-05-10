@@ -22,7 +22,6 @@ export const submitQuizResponse = data => async dispatch => {
 };
 
 export const submitQuestion = data => async dispatch => {
-  console.log('sumbitQuestion called');
   const res = await axios.post('/api/question/new', data);
   dispatch({ type: SUMBIT_QUESTION, payload: res.data });
 };
