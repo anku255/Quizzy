@@ -21,7 +21,8 @@ export const submitQuizResponse = data => async dispatch => {
   dispatch({ type: SUMBIT_QUIZ_RESPONSE, payload: res.data });
 };
 
-export const submitQuestion = data => async dispatch => {
+export const submitQuestion = (data, history) => async dispatch => {
+  history.push('/');
   const res = await axios.post('/api/question/new', data);
   dispatch({ type: SUMBIT_QUESTION, payload: res.data });
 };

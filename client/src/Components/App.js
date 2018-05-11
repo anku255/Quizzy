@@ -7,7 +7,7 @@ import Header from './Header';
 import Landing from './Landing';
 import Quiz from './Quiz/Quiz';
 import Answers from './Quiz/Answers';
-import QuestionForm from './Form/QuestionForm';
+import QuestionNew from './Form/QuestionNew';
 
 class App extends Component {
   componentDidMount = () => {
@@ -22,7 +22,7 @@ class App extends Component {
           <Route exact path="/" component={Landing} />
           <Route exact path="/current" component={Quiz} />
           <Route path="/current/answers" component={Answers} />
-          <Route path="/question/new" component={QuestionForm} />
+          <Route path="/question/new" component={QuestionNew} />
         </div>
       </BrowserRouter>
     );
