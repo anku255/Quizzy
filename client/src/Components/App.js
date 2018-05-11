@@ -8,6 +8,7 @@ import Landing from './Landing';
 import Quiz from './Quiz/Quiz';
 import Answers from './Quiz/Answers';
 import QuestionNew from './Form/QuestionNew';
+import PrivateRoute from './PrivateRoute';
 
 class App extends Component {
   componentDidMount = () => {
@@ -18,9 +19,14 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div>
-          <Header />
+          <Header user={this.props.user} />
           <Route exact path="/" component={Landing} />
-          <Route exact path="/current" component={Quiz} />
+          <PrivateRoute
+            exact
+            user={this.props.user}
+            path="/current"
+            component={Quiz}
+          />
           <Route path="/current/answers" component={Answers} />
           <Route path="/question/new" component={QuestionNew} />
         </div>
@@ -29,4 +35,8 @@ class App extends Component {
   }
 }
 
-export default connect(null, actions)(App);
+function mapStateToProps(state) {
+  return { user: state.auth };
+}
+
+export default connect(mapStateToProps, actions)(App);

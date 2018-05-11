@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -82,9 +81,4 @@ class Header extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    user: state.auth
-  };
-}
-export default connect(mapStateToProps)(Header);
+export default Header;
