@@ -4,7 +4,10 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import 'bulma/css/bulma.css';
+import 'font-awesome/css/font-awesome.min.css';
 import './index.css';
+import './utils/scripts';
 import reducers from './reducers';
 import App from './Components/App';
 

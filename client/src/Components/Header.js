@@ -1,27 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
-
-// CSS
-const styles = {
-  root: {
-    flexGrow: 1
-  },
-  flex: {
-    flex: 1
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 30
-  },
-  link: {
-    color: 'white',
-    textDecoration: 'none'
-  }
-};
 
 class Header extends Component {
   renderNavlinks() {
@@ -30,53 +8,63 @@ class Header extends Component {
         return;
       case false:
         return (
-          <Button
-            variant="raised"
-            color="secondary"
-            style={styles.menuButton}
-            href="/auth/google"
-          >
-            Login With Google
-          </Button>
+          <p className="control">
+            <a className="button is-danger" href="/auth/google">
+              <span className="icon">
+                <i className="fa fa-google" />
+              </span>
+              <span>Login With Google</span>
+            </a>
+          </p>
         );
       default:
         return [
-          <Button
-            key="1"
-            variant="raised"
-            color="secondary"
-            style={styles.menuButton}
-            href="#"
-          >
-            Profile
-          </Button>,
-          <Button
-            key="2"
-            variant="raised"
-            color="inherit"
-            style={styles.menuButton}
-            href="/api/logout"
-          >
-            Logout
-          </Button>
+          <p key="1" className="control">
+            <Link className="button is-warning" to="/profile">
+              <span className="icon">
+                <i className="fa fa-user-circle" />
+              </span>
+              <span>Profile</span>
+            </Link>
+          </p>,
+          <p key="2" className="control">
+            <a className="button is-light" href="/api/logout">
+              <span className="icon">
+                <i className="fa fa-sign-out" />
+              </span>
+              <span>Logout</span>
+            </a>
+          </p>
         ];
     }
   }
 
   render() {
     return (
-      <div style={styles.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="title" color="inherit" style={styles.flex}>
-              <Link to="/" style={styles.link}>
-                Quizzy
-              </Link>
-            </Typography>
-            {this.renderNavlinks()}
-          </Toolbar>
-        </AppBar>
-      </div>
+      <nav className="navbar is-link">
+        <div className="navbar-brand">
+          <Link
+            className="navbar-item"
+            to="/"
+            style={{ fontWeight: 'bold', fontSize: '20px' }}
+          >
+            Quizzy
+          </Link>
+          <div className="navbar-burger burger" data-target="navMenu">
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+
+        <div id="navMenu" className="navbar-menu">
+          <div className="navbar-end">
+            <div className="navbar-item">
+              <div className="field is-grouped">{this.renderNavlinks()}</div>
+            </div>
+          </div>
+        </div>
+      </nav>
     );
   }
 }
