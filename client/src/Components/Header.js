@@ -11,7 +11,7 @@ class Header extends Component {
           <p className="control">
             <a className="button is-danger" href="/auth/google">
               <span className="icon">
-                <i className="fa fa-google" />
+                <i className="fab fa-google" />
               </span>
               <span>Login With Google</span>
             </a>
@@ -22,7 +22,7 @@ class Header extends Component {
           <p key="1" className="control">
             <Link className="button is-warning" to="/profile">
               <span className="icon">
-                <i className="fa fa-user-circle" />
+                <i className="fas fa-user-circle" />
               </span>
               <span>Profile</span>
             </Link>
@@ -30,7 +30,7 @@ class Header extends Component {
           <p key="2" className="control">
             <a className="button is-light" href="/api/logout">
               <span className="icon">
-                <i className="fa fa-sign-out" />
+                <i className="fas fa-sign-out-alt" />
               </span>
               <span>Logout</span>
             </a>
