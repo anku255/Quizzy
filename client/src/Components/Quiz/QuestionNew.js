@@ -22,7 +22,7 @@ const renderChoices = (Question, quesIndex, handleInputChange) => {
       >
         <input
           type="radio"
-          name="Option"
+          name={Question._id}
           value={choice}
           data-question-id={Question._id}
           data-choice-index={index}
