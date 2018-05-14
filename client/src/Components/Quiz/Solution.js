@@ -1,31 +1,29 @@
 import React from 'react';
-import { withStyles } from 'material-ui/styles';
-import Grid from 'material-ui/Grid';
-import Paper from 'material-ui/Paper';
-import Typography from 'material-ui/Typography';
-import Radio, { RadioGroup } from 'material-ui/Radio';
-import { FormControl, FormLabel, FormControlLabel } from 'material-ui/Form';
-import Divider from 'material-ui/Divider';
-
-// CSS
-const styles = {
-  paper: {
-    textAlign: 'left',
-    padding: 16,
-    marginTop: 5
+const classes = {
+  radioContainer: {
+    display: 'flex',
+    flexDirection: 'column'
   },
-  defaultAns: {
+  radioBtn: {
+    margin: 0,
+    fontSize: '1.2rem',
     fontWeight: 500
   },
   correctAns: {
+    margin: 0,
+    fontWeight: 600,
     color: 'green',
-    fontWeight: 500,
-    fontSize: '1em'
+    fontSize: '1.25rem'
   },
   incorrectAns: {
+    margin: 0,
+    fontWeight: 600,
     color: 'red',
-    fontWeight: 500,
-    fontSize: '0.9em'
+    fontSize: '1.25rem'
+  },
+  ansDescription: {
+    textAlign: 'left',
+    padding: '5px 20px'
   }
 };
 
@@ -33,64 +31,67 @@ const styles = {
  * @param correctAnsIndex - Index of the correct choice
  * @param responeIndex - Index of the choice selected by the user
  * @param choiceIndex - Index of the choice for which the fn is called
- * @returns
+ * @returns proper CSS class
  */
-function getClassName(correctAnsIndex, responseIndex, choiceIndex) {
+function getCSSClass(correctAnsIndex, responseIndex, choiceIndex) {
   if (choiceIndex === correctAnsIndex) {
-    return 'correctAns';
+    return classes.correctAns;
   }
 
   if (responseIndex === choiceIndex) {
-    return 'incorrectAns';
+    return classes.incorrectAns;
   }
 
-  return 'defaultAns';
+  return classes.radioBtn;
 }
 
-const Solution = props => {
-  return props.currentQuiz.map((Quiz, quesIndex) => {
+const renderChoices = (Question, response) => {
+  return Question.choices.map((choice, index) => {
+    // get the proper CSS class for the label
+    const cssClass = getCSSClass(
+      Question.correctAnsIndex,
+      +response[Question._id],
+      index
+    );
     return (
-      <Grid key={Quiz._id} item xs={12}>
-        {/* One Grid Item consist of One Paper Component */}
-        <Paper className={props.classes.paper} elevation={4}>
-          {/* Question Text (h4) */}
-          <Typography variant="headline" component="h4">
-            {Quiz.text}
-          </Typography>
-
-          {/* Choices are wrapped inside FromControl Component */}
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Options:</FormLabel>
-
-            {/* Radio buttons are grouped within a RadioGroup */}
-            <RadioGroup value={props.radioBtnValue[quesIndex]}>
-              {Quiz.choices.map((choice, index) => {
-                const classKey = getClassName(
-                  Quiz.correctAnsIndex,
-                  +props.response[Quiz._id],
-                  index
-                );
-
-                return (
-                  <FormControlLabel
-                    key={choice}
-                    classes={{ label: props.classes[classKey] }}
-                    value={`${Quiz._id} ${index} ${quesIndex}`}
-                    control={<Radio />}
-                    label={choice}
-                  />
-                );
-              })}
-            </RadioGroup>
-          </FormControl>
-          <Divider />
-          <Typography variant="subheading" gutterBottom>
-            {Quiz.ansDescription}
-          </Typography>
-        </Paper>
-      </Grid>
+      <label key={choice} className="radio" style={cssClass}>
+        <input
+          type="radio"
+          name={Question._id}
+          value={choice}
+          checked={+response[Question._id] === index}
+          readOnly
+        />
+        {choice}
+      </label>
     );
   });
 };
 
-export default withStyles(styles)(Solution);
+export default ({ currentQuiz, response }) => {
+  return currentQuiz.map((Question, index) => {
+    return (
+      <div key={Question._id} className="card" style={{ margin: '20px auto' }}>
+        <header className="card-header">
+          <p
+            className="is-size-4"
+            style={{ textAlign: 'left', padding: '5px 20px' }}
+          >
+            {Question.text}
+          </p>
+        </header>
+        <div className="card-content">
+          <div className="control" style={classes.radioContainer}>
+            {renderChoices(Question, response)}
+          </div>
+        </div>
+        <footer className="card-footer">
+          <div className="content" style={classes.ansDescription}>
+            <div className="subtitle">Answer Description</div>
+            {Question.ansDescription}
+          </div>
+        </footer>
+      </div>
+    );
+  });
+};

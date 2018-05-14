@@ -1,22 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import Grid from 'material-ui/Grid';
-import Button from 'material-ui/Button';
 import Question from './Question';
 
-// CSS
-const styles = {
-  root: {
-    margin: '0 2%',
-    flexGrow: 1
-  },
-  gridContainer: {
-    textAlign: 'center'
-  },
-  submitBtn: {
-    color: 'white'
+const classes = {
+  isCentered: {
+    display: 'flex',
+    justifyContent: 'center'
   }
 };
 
@@ -24,64 +15,56 @@ class Quiz extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      response: {},
-      radioBtnValue: [] // Will be used for controlled radio btn value
+      response: {}
     };
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(event) {
-    const values = event.target.value.split(' ');
-    const quesID = values[0];
-    const choiceIndex = values[1];
-    const quesIndex = values[2];
-    const radioVal = event.target.value; // Value of radio btn which was clicked
-
-    this.setState(prevState => {
-      // change the radioBtn value at quesIndex
-      prevState.radioBtnValue[quesIndex] = radioVal;
-      return {
-        response: { ...prevState.response, [quesID]: choiceIndex },
-        radioBtnValue: prevState.radioBtnValue
-      };
-    });
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   componentDidMount = () => {
     this.props.fetchCurrentQuiz();
   };
 
+  handleInputChange(event) {
+    const choiceIndex = event.target.getAttribute('data-choice-index');
+    const quesId = event.target.getAttribute('data-question-id');
+
+    this.setState(prevState => {
+      return {
+        response: { ...prevState.response, [quesId]: choiceIndex }
+      };
+    });
+  }
+
   render() {
     return (
-      <div style={styles.root}>
-        <Grid container style={styles.gridContainer}>
-          {this.props.loading ? (
-            <div>Loading</div>
-          ) : (
-            <Grid item xs={12}>
-              <Question
-                currentQuiz={this.props.currentQuiz}
-                radioBtnValue={this.state.radioBtnValue}
-                handleChange={this.handleChange}
-              />
-              <Button variant="raised" color="primary">
-                <Link
-                  to={{
-                    pathname: '/current/answers',
-                    state: {
-                      response: this.state.response,
-                      currentQuiz: this.props.currentQuiz,
-                      radioBtnValue: this.state.radioBtnValue
-                    }
-                  }}
-                  style={styles.submitBtn}
-                >
-                  Submit
-                </Link>
-              </Button>
-            </Grid>
-          )}
-        </Grid>
+      <div className="container" style={{ margin: '20px auto' }}>
+        <h2 className="is-size-2" style={{ textAlign: 'center' }}>
+          Current Quiz
+        </h2>
+        {this.props.loading ? (
+          <div>Loading</div>
+        ) : (
+          <div>
+            <Question
+              currentQuiz={this.props.currentQuiz}
+              handleInputChange={this.handleInputChange}
+            />
+            <div style={classes.isCentered}>
+              <Link
+                className="button is-primary"
+                to={{
+                  pathname: '/current/answers',
+                  state: {
+                    response: this.state.response,
+                    currentQuiz: this.props.currentQuiz
+                  }
+                }}
+              >
+                Submit
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

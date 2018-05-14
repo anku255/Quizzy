@@ -1,56 +1,56 @@
 import React from 'react';
-import Grid from 'material-ui/Grid';
-import Paper from 'material-ui/Paper';
-import Typography from 'material-ui/Typography';
-import Radio, { RadioGroup } from 'material-ui/Radio';
-import { FormControl, FormLabel, FormControlLabel } from 'material-ui/Form';
-
-// CSS
-const styles = {
-  paper: {
-    textAlign: 'left',
-    padding: 16,
-    marginTop: 5
+const classes = {
+  radioContainer: {
+    display: 'flex',
+    flexDirection: 'column'
   },
-  submitBtn: {
-    color: 'white'
+  radioBtn: {
+    margin: 0,
+    fontSize: '1.2rem',
+    fontWeight: 500
   }
 };
 
-export default props => {
-  return props.currentQuiz.map((Quiz, quesIndex) => {
+const renderChoices = (Question, quesIndex, handleInputChange) => {
+  return Question.choices.map((choice, index) => {
     return (
-      <Grid key={Quiz._id} item xs={12}>
-        {/* One Grid Item consist of One Paper Component */}
-        <Paper style={styles.paper} elevation={4}>
-          {/* Question Text (h4) */}
-          <Typography variant="headline" component="h4">
-            {Quiz.text}
-          </Typography>
+      <label
+        key={choice}
+        className="radio"
+        style={classes.radioBtn}
+        onChange={handleInputChange}
+      >
+        <input
+          type="radio"
+          name={Question._id}
+          value={choice}
+          data-question-id={Question._id}
+          data-choice-index={index}
+        />
+        {choice}
+      </label>
+    );
+  });
+};
 
-          {/* Choices are wrapped inside FromControl Component */}
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Options:</FormLabel>
-
-            {/* Radio buttons are grouped within a RadioGroup */}
-            <RadioGroup
-              onChange={props.handleChange}
-              value={props.radioBtnValue[quesIndex]}
-            >
-              {Quiz.choices.map((choice, index) => {
-                return (
-                  <FormControlLabel
-                    key={choice}
-                    value={`${Quiz._id} ${index} ${quesIndex}`}
-                    control={<Radio />}
-                    label={choice}
-                  />
-                );
-              })}
-            </RadioGroup>
-          </FormControl>
-        </Paper>
-      </Grid>
+export default ({ currentQuiz, handleInputChange }) => {
+  return currentQuiz.map((Question, index) => {
+    return (
+      <div key={Question._id} className="card" style={{ margin: '20px auto' }}>
+        <header className="card-header">
+          <p
+            className="is-size-4"
+            style={{ textAlign: 'left', padding: '5px 20px' }}
+          >
+            {Question.text}
+          </p>
+        </header>
+        <div className="card-content">
+          <div className="control" style={classes.radioContainer}>
+            {renderChoices(Question, index, handleInputChange)}
+          </div>
+        </div>
+      </div>
     );
   });
 };
