@@ -1,13 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Paper from 'material-ui/Paper';
-import Typography from 'material-ui/Typography';
-import Radio, { RadioGroup } from 'material-ui/Radio';
-import { FormControl, FormLabel, FormControlLabel } from 'material-ui/Form';
-import Divider from 'material-ui/Divider';
-import Button from 'material-ui/Button';
 import { submitQuestion } from '../../actions';
 import { withRouter } from 'react-router-dom';
+
+const classes = {
+  radioContainer: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  radioBtn: {
+    marginRight: '10px'
+  },
+  radioBtnLabel: {
+    margin: '2px',
+    fontSize: '1.2rem',
+    fontWeight: 500
+  },
+  ansDescription: {
+    padding: '5px 20px'
+  }
+};
 
 const QuestionFormReview = ({
   onCancel,
@@ -18,70 +30,92 @@ const QuestionFormReview = ({
   const handleSubmit = (e, formValues) => {
     e.preventDefault();
 
-    const result = { ...formValues, choices: [] };
-    for (let i = 0; i < 4; i++) {
-      result.choices.push(formValues[`choice${i}`]);
-      delete result[`choice${i}`];
-    }
-
+    const result = { ...formValues };
+    result.choices = result.choices.split(', ');
     submitQuestion(result, history);
   };
 
-  const choices = ['choice0', 'choice1', 'choice2', 'choice3'];
-
   return (
-    <div>
-      <Paper elevation={4}>
-        {/* Question Text (h4) */}
-        <Typography variant="headline" component="h4">
-          {formValues.text}
-        </Typography>
-
-        {/* Choices are wrapped inside FromControl Component */}
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Options:</FormLabel>
-
-          {/* Radio buttons are grouped within a RadioGroup */}
-          <RadioGroup value={choices[formValues.correctAnsIndex]}>
-            {choices.map((choice, index) => {
-              return (
-                <FormControlLabel
+    <div className="container">
+      <div
+        style={{
+          margin: '20px 50px',
+          padding: '20px',
+          border: '2px solid rgb(177, 173, 173)'
+        }}
+      >
+        <div className="title" style={{ textAlign: 'center' }}>
+          Please Confirm Your Entries!
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+          <span className="tag is-rounded is-info">
+            Category: {formValues.category}
+          </span>
+          <span className="tag is-rounded is-info">
+            Semester: {formValues.semester}
+          </span>
+        </div>
+        <div className="card" style={{ margin: '20px auto' }}>
+          <header className="card-header">
+            <p
+              className="is-size-4"
+              style={{ textAlign: 'left', padding: '5px 20px' }}
+            >
+              {formValues.text}
+            </p>
+          </header>
+          <div className="card-content">
+            <div className="control" style={classes.radioContainer}>
+              {formValues.choices.split(', ').map((choice, index) => (
+                <label
                   key={choice}
-                  control={<Radio />}
-                  value={choice}
-                  label={formValues[choice]}
-                />
-              );
-            })}
-          </RadioGroup>
-        </FormControl>
-
-        <div>
-          <div>
-            <strong>Semester: </strong> {formValues.semester}
+                  className="radio"
+                  style={classes.radioBtnLabel}
+                >
+                  <input
+                    type="radio"
+                    checked={+formValues.correctAnsIndex === index}
+                    style={classes.radioBtn}
+                    readOnly
+                  />
+                  {choice}
+                </label>
+              ))}
+            </div>
           </div>
-          <div>
-            <strong>Category: </strong> {formValues.category}
+          <footer className="card-footer">
+            <div className="content" style={classes.ansDescription}>
+              <div className="subtitle">Answer description</div>
+              {formValues.ansDescription}
+            </div>
+          </footer>
+        </div>
+        <div
+          className="field is-grouped "
+          style={{ display: 'flex', justifyContent: 'space-evenly' }}
+        >
+          <div className="control ">
+            <button className="button is-danger is-medium" onClick={onCancel}>
+              <span className="icon ">
+                <i className="fas fa-arrow-left " />
+              </span>
+              <span>Back</span>
+            </button>
+          </div>
+
+          <div className="control ">
+            <button
+              className="button is-success is-medium"
+              onClick={e => handleSubmit(e, formValues)}
+            >
+              <span>Submit</span>
+              <span className="icon ">
+                <i className="fas fa-check " />
+              </span>
+            </button>
           </div>
         </div>
-
-        <Divider />
-
-        <Typography variant="subheading" gutterBottom>
-          {formValues.ansDescription}
-        </Typography>
-      </Paper>
-
-      <Button variant="raised" color="secondary" onClick={onCancel}>
-        Back
-      </Button>
-      <Button
-        variant="raised"
-        color="primary"
-        onClick={e => handleSubmit(e, formValues)}
-      >
-        Submit Question
-      </Button>
+      </div>
     </div>
   );
 };
