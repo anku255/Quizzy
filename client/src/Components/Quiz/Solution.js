@@ -5,18 +5,21 @@ const classes = {
     flexDirection: 'column'
   },
   radioBtn: {
-    margin: 0,
+    marginRight: '10px'
+  },
+  radioBtnLabel: {
+    margin: '2px',
     fontSize: '1.2rem',
     fontWeight: 500
   },
   correctAns: {
-    margin: 0,
+    margin: '1.5px',
     fontWeight: 600,
     color: 'green',
     fontSize: '1.25rem'
   },
   incorrectAns: {
-    margin: 0,
+    margin: '1.5px',
     fontWeight: 600,
     color: 'red',
     fontSize: '1.25rem'
@@ -42,7 +45,7 @@ function getCSSClass(correctAnsIndex, responseIndex, choiceIndex) {
     return classes.incorrectAns;
   }
 
-  return classes.radioBtn;
+  return classes.radioBtnLabel;
 }
 
 const renderChoices = (Question, response) => {
@@ -60,6 +63,7 @@ const renderChoices = (Question, response) => {
           name={Question._id}
           value={choice}
           checked={+response[Question._id] === index}
+          style={classes.radioBtn}
           readOnly
         />
         {choice}
@@ -87,7 +91,7 @@ export default ({ currentQuiz, response }) => {
         </div>
         <footer className="card-footer">
           <div className="content" style={classes.ansDescription}>
-            <div className="subtitle">Answer Description</div>
+            <div className="subtitle">Answer description</div>
             {Question.ansDescription}
           </div>
         </footer>

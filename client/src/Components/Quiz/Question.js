@@ -4,10 +4,13 @@ const classes = {
     display: 'flex',
     flexDirection: 'column'
   },
-  radioBtn: {
-    margin: 0,
+  radioBtnLabel: {
+    margin: '1.5px',
     fontSize: '1.2rem',
     fontWeight: 500
+  },
+  radioBtn: {
+    marginRight: '10px'
   }
 };
 
@@ -17,7 +20,7 @@ const renderChoices = (Question, quesIndex, handleInputChange) => {
       <label
         key={choice}
         className="radio"
-        style={classes.radioBtn}
+        style={classes.radioBtnLabel}
         onChange={handleInputChange}
       >
         <input
@@ -26,6 +29,7 @@ const renderChoices = (Question, quesIndex, handleInputChange) => {
           value={choice}
           data-question-id={Question._id}
           data-choice-index={index}
+          style={classes.radioBtn}
         />
         {choice}
       </label>
