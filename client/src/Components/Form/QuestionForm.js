@@ -23,8 +23,8 @@ const validate = values => {
     }
   });
 
-  if (values['correctAnsIndex'] < 0 || values['correctAnsIndex'] > 3)
-    errors['correctAnsIndex'] = 'Index must lie in the range [0-3]';
+  if (values['correctAnsIndex'] < 1 || values['correctAnsIndex'] > 4)
+    errors['correctAnsIndex'] = 'Index must lie in the range [1-4]';
 
   return errors;
 };
@@ -72,7 +72,7 @@ const QuestionForm = props => {
                 label="Correct Answer Index"
                 component={renderTextField}
                 placeholder="Correct Answer Index"
-                helpText="Index should be in the range [0: 3]"
+                helpText="Index should be in the range [1: 4]"
               />
             </div>
 

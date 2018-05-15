@@ -32,6 +32,9 @@ const QuestionFormReview = ({
 
     const result = { ...formValues };
     result.choices = result.choices.split(', ');
+
+    // Substract 1 from correctAnsIndex
+    result.correctAnsIndex -= 1;
     submitQuestion(result, history);
   };
 
@@ -74,7 +77,7 @@ const QuestionFormReview = ({
                 >
                   <input
                     type="radio"
-                    checked={+formValues.correctAnsIndex === index}
+                    checked={+formValues.correctAnsIndex === index + 1}
                     style={classes.radioBtn}
                     readOnly
                   />
