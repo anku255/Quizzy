@@ -1,18 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
-import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
-import { renderTextField, renderSelectField } from './formFields';
+import {
+  renderTextAreaField,
+  renderTextField,
+  renderSelectField
+} from './formFields';
 
 const validate = values => {
   const errors = {};
   const requiredFields = [
     'text',
-    'choice0',
-    'choice1',
-    'choice2',
-    'choice3',
+    'choices',
     'correctAnsIndex',
     'semester',
     'category',
@@ -32,91 +31,107 @@ const validate = values => {
 
 const semestersArray = [1, 2, 3, 4, 5, 6, 7, 8];
 const categoriesArray = ['category1', 'category2', 'category3'];
-const choicesArray = [
-  { name: 'choice0', label: 'Option 1' },
-  { name: 'choice1', label: 'Option 2' },
-  { name: 'choice2', label: 'Option 3' },
-  { name: 'choice3', label: 'Option 4' }
-];
 
 const QuestionForm = props => {
   const { handleSubmit, onQuestionSubmit, pristine } = props;
   return (
-    <div>
-      <Typography variant="title" gutterBottom>
-        Submit A New Question
-      </Typography>
-      <form onSubmit={handleSubmit(() => onQuestionSubmit())}>
-        <div>
+    <div className="container">
+      <div
+        style={{
+          margin: '20px 50px',
+          padding: '20px',
+          border: '2px solid rgb(177, 173, 173)'
+        }}
+      >
+        <div className="title" style={{ textAlign: 'center' }}>
+          Question Form
+        </div>
+        <form onSubmit={handleSubmit(() => onQuestionSubmit())}>
           <Field
             name="text"
-            component={renderTextField}
+            component={renderTextAreaField}
             label="Question Text"
-            multiline
-            fullWidth
+            placeholder="Question Text"
+            rows="1"
           />
-        </div>
-        <div>
-          {choicesArray.map(({ name, label }) => {
-            return (
-              <Field
-                key={name}
-                name={name}
-                component={renderTextField}
-                label={label}
-              />
-            );
-          })}
-        </div>
-        <div>
+
           <Field
-            name="correctAnsIndex"
+            name="choices"
             component={renderTextField}
-            label="Correct Answer Index"
-            type="number"
+            label="Options"
+            type="text"
+            placeholder="option-1, option-2..."
+            helpText="Enter comma seperated options [Ex. option 1, option 2, option 3..]"
           />
-        </div>
-        <div>
-          <Field
-            name="semester"
-            component={renderSelectField}
-            label="Semester"
-            valuesArray={semestersArray}
-          />
-        </div>
-        <div>
-          <Field
-            name="category"
-            component={renderSelectField}
-            label="Category"
-            valuesArray={categoriesArray}
-          />
-        </div>
-        <div>
+
+          <div className="columns">
+            <div className="column">
+              <Field
+                name="correctAnsIndex"
+                type="number"
+                label="Correct Answer Index"
+                component={renderTextField}
+                placeholder="Correct Answer Index"
+                helpText="Index should be in the range [0: 3]"
+              />
+            </div>
+
+            <div className="column">
+              <Field
+                name="semester"
+                component={renderSelectField}
+                label="Semester"
+                valuesArray={semestersArray}
+              />
+            </div>
+
+            <div className="column">
+              <Field
+                name="category"
+                component={renderSelectField}
+                label="Category"
+                valuesArray={categoriesArray}
+              />
+            </div>
+          </div>
+
           <Field
             name="ansDescription"
-            component={renderTextField}
+            component={renderTextAreaField}
             label="Answer Description"
-            multiline
-            fullWidth
+            placeholder="Answer Description"
+            rows="2"
           />
-        </div>
-        <div>
-          <Button variant="raised" color="secondary">
-            <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
-              Back
-            </Link>
-          </Button>
-          <Button
-            variant="raised"
-            color="primary"
-            disabled={pristine}
-            type="submit"
+
+          <div
+            className="field is-grouped "
+            style={{ display: 'flex', justifyContent: 'space-evenly' }}
           >
-            Next
-          </Button>
-        </div>
-      </form>
+            <div className="control ">
+              <button className="button is-danger is-medium ">
+                <Link to="/" className="has-text-white">
+                  <span className="icon ">
+                    <i className="fas fa-ban " />
+                  </span>
+                  <span>Cancel</span>
+                </Link>
+              </button>
+            </div>
+
+            <div className="control ">
+              <button
+                className="button is-success is-medium"
+                disabled={pristine}
+              >
+                <span>Next</span>
+                <span className="icon ">
+                  <i className="fas fa-arrow-right " />
+                </span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
