@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const { Schema } = mongoose;
+const { USER_LEVEL } = require('../constants/accessLevel');
 
 const userSchema = new Schema({
   googleId: String,
@@ -11,7 +12,11 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'QuizResponse'
   },
-  lastSubmission: String
+  lastSubmission: String,
+  accessLevel: {
+    type: Number,
+    default: USER_LEVEL
+  }
 });
 
 module.exports = mongoose.model('User', userSchema);
