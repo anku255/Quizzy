@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import { Link } from 'react-router-dom';
 import Question from './Question';
+import Spinner from '../common/Spinner';
 
 const classes = {
   isCentered: {
@@ -42,7 +43,7 @@ class Quiz extends Component {
           Current Quiz
         </h2>
         {this.props.loading ? (
-          <div>Loading</div>
+          <Spinner />
         ) : (
           <div>
             <Question
