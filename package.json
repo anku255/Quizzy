@@ -4,7 +4,9 @@
   "description": "",
   "main": "start.js",
   "scripts": {
-    "server": "nodemon start.js"
+    "server": "nodemon start.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run client\" \"npm run server\""
   },
   "author": "Ankit Tiwari",
   "license": "ISC",
@@ -14,6 +16,7 @@
   },
   "dependencies": {
     "body-parser": "^1.18.2",
+    "concurrently": "^3.5.1",
     "cookie-session": "^2.0.0-beta.3",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
