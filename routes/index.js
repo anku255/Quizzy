@@ -6,10 +6,6 @@ const authController = require('../controllers/authController');
 const questionController = require('../controllers/questionController');
 const quizController = require('../controllers/quizController');
 
-router.get('/', (req, res) => {
-  res.send('Welcome To Quizzy!!');
-});
-
 router.get(
   '/auth/google',
   passport.authenticate('google', {
