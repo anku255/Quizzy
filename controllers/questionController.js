@@ -4,6 +4,41 @@ const Question = mongoose.model('Question');
 const QuizResponse = mongoose.model('QuizResponse');
 const { MODERATOR_LEVEL } = require('../constants/accessLevel');
 
+// Get a list of questions for a given category
+exports.getQuestions = async (req, res) => {
+  const category = req.params.category;
+  let page = req.params.page || 1;
+  let limit = 5;
+  let skip = page * limit - limit;
+
+  const questionsPromise = Question.find({ category })
+    .skip(skip)
+    .limit(limit)
+    .sort({ index: 'asc' });
+
+  const countPromise = Question.count({ category });
+
+  let [questions, count] = await Promise.all([questionsPromise, countPromise]);
+
+  const pages = Math.ceil(count / limit);
+
+  // Page no exceeded than highest page no.
+  if (!questions.length && skip) {
+    // set page to last page no
+    page = pages;
+    skip = page * limit - limit;
+
+    questions = await Question.find({ category })
+      .skip(skip)
+      .limit(limit)
+      .sort({ index: 'asc' });
+
+    return res.json(questions);
+  }
+
+  res.json(questions);
+};
+
 exports.addQuestion = async (req, res) => {
   // Check if the user has MODERATER_ACCESS_LEVEL
   if (req.user.accessLevel !== MODERATOR_LEVEL) {

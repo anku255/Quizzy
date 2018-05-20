@@ -25,6 +25,7 @@ router.get('/api/logout', authController.logout);
 
 // Question Routes
 
+router.get('/api/question/:category/:page', questionController.getQuestions);
 router.post('/api/question/new', questionController.addQuestion);
 router.post('/api/question/submit', questionController.submitQuestion);
 
