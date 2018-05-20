@@ -23,7 +23,10 @@ router.get('/api/current_user', authController.getCurrentUser);
 
 router.get('/api/logout', authController.logout);
 
+// Question Routes
+
 router.post('/api/question/new', questionController.addQuestion);
+router.post('/api/question/submit', questionController.submitQuestion);
 
 // Test Routes
 
