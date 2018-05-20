@@ -1,14 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-
-const LoginComponent = props => {
-  return (
-    <div>
-      You need to login to view this page.
-      <a href="/auth/google">Click Here to Login</a>
-    </div>
-  );
-};
+import LoginRequired from './LoginRequired';
 
 const PrivateRoute = ({ user, component: Component, ...rest }) => {
   return (
@@ -18,7 +10,7 @@ const PrivateRoute = ({ user, component: Component, ...rest }) => {
         Boolean(user) ? (
           <Component {...props} />
         ) : (
-          <LoginComponent from={props.location} />
+          <LoginRequired from={props.location} />
         )
       }
     />

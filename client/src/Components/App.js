@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import * as actions from '../actions';
 import Header from './Header';
 import Landing from './Landing';
 import Quiz from './Quiz/Quiz';
 import Answers from './Quiz/Answers';
 import QuestionNew from './Form/QuestionNew';
-import PrivateRoute from './PrivateRoute';
+import PrivateRoute from './common/PrivateRoute';
 
 class App extends Component {
   componentDidMount = () => {
@@ -21,12 +21,14 @@ class App extends Component {
         <div>
           <Header user={this.props.user} />
           <Route exact path="/" component={Landing} />
-          <PrivateRoute
-            exact
-            user={this.props.user}
-            path="/current"
-            component={Quiz}
-          />
+          <Switch>
+            <PrivateRoute
+              exact
+              user={this.props.user}
+              path="/current"
+              component={Quiz}
+            />
+          </Switch>
           <Route path="/current/answers" component={Answers} />
           <Route path="/question/new" component={QuestionNew} />
         </div>
