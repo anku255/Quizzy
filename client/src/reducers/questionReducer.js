@@ -1,5 +1,5 @@
 import {
-  SUMBIT_QUESTION,
+  ADD_QUESTION,
   FETCH_QUESTIONS,
   QUESTIONS_LOADING
 } from '../actions/types';
@@ -16,7 +16,7 @@ export default function(state = initialState, action) {
         ...state,
         loading: true
       };
-    case SUMBIT_QUESTION:
+    case ADD_QUESTION:
       return {
         ...state,
         question: action.payload

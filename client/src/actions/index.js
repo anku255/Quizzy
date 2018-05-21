@@ -3,7 +3,7 @@ import {
   FETCH_USER,
   FETCH_CURRENT_QUIZ,
   SUMBIT_QUIZ_RESPONSE,
-  SUMBIT_QUESTION,
+  ADD_QUESTION,
   QUIZ_LOADING,
   FETCH_QUESTIONS,
   QUESTIONS_LOADING
@@ -25,10 +25,10 @@ export const submitQuizResponse = data => async dispatch => {
   dispatch({ type: SUMBIT_QUIZ_RESPONSE, payload: res.data });
 };
 
-export const submitQuestion = (data, history) => async dispatch => {
+export const addQuestion = (data, history) => async dispatch => {
   history.push('/');
   const res = await axios.post('/api/question/new', data);
-  dispatch({ type: SUMBIT_QUESTION, payload: res.data });
+  dispatch({ type: ADD_QUESTION, payload: res.data });
 };
 
 // Sets loading to true

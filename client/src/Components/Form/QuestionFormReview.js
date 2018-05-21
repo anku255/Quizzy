@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { submitQuestion } from '../../actions';
+import { addQuestion } from '../../actions';
 import { withRouter } from 'react-router-dom';
 
 const classes = {
@@ -24,7 +24,7 @@ const classes = {
 const QuestionFormReview = ({
   onCancel,
   formValues,
-  submitQuestion,
+  addQuestion,
   history
 }) => {
   const handleSubmit = (e, formValues) => {
@@ -35,7 +35,7 @@ const QuestionFormReview = ({
 
     // Substract 1 from correctAnsIndex
     result.correctAnsIndex -= 1;
-    submitQuestion(result, history);
+    addQuestion(result, history);
   };
 
   return (
@@ -129,6 +129,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { submitQuestion })(
+export default connect(mapStateToProps, { addQuestion })(
   withRouter(QuestionFormReview)
 );
