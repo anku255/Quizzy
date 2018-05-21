@@ -92,44 +92,54 @@ class QuestionsMain extends Component {
   }
 
   render() {
-    return this.props.loading ? (
-      <Spinner />
-    ) : (
-      <div className="container">
-        <Questions
-          currentQuiz={this.props.questions}
-          handleInputChange={this.handleInputChange}
-        />
-        <div
-          className="field is-grouped "
-          style={{ display: 'flex', justifyContent: 'space-evenly' }}
-        >
-          <div className="control ">
-            <button
-              className="button is-danger is-medium"
-              onClick={this.onBackBtnClick.bind(this)}
-              disabled={this.state.currentPage === 1}
+    return (
+      <div className="container" style={{ margin: '20px auto' }}>
+        <h2 className="is-size-2" style={{ textAlign: 'center' }}>
+          {this.state.category}
+        </h2>{' '}
+        <h2 className="is-size-5" style={{ textAlign: 'center' }}>
+          {`Current Page: ${this.state.currentPage}`}
+        </h2>{' '}
+        {this.props.loading ? (
+          <Spinner />
+        ) : (
+          <div className="container">
+            <Questions
+              currentQuiz={this.props.questions}
+              handleInputChange={this.handleInputChange}
+            />
+            <div
+              className="field is-grouped "
+              style={{ display: 'flex', justifyContent: 'space-evenly' }}
             >
-              <span className="icon ">
-                <i className="fas fa-arrow-left " />
-              </span>
-              <span>Back</span>
-            </button>
-          </div>
+              <div className="control ">
+                <button
+                  className="button is-danger is-medium"
+                  onClick={this.onBackBtnClick.bind(this)}
+                  disabled={this.state.currentPage === 1}
+                >
+                  <span className="icon ">
+                    <i className="fas fa-arrow-left " />
+                  </span>
+                  <span>Back</span>
+                </button>
+              </div>
 
-          <div className="control ">
-            <button
-              className="button is-success is-medium"
-              onClick={this.onNextBtnClick.bind(this)}
-              disabled={this.state.currentPage === this.props.pages}
-            >
-              <span>Next</span>
-              <span className="icon ">
-                <i className="fas fa-arrow-right" />
-              </span>
-            </button>
+              <div className="control ">
+                <button
+                  className="button is-success is-medium"
+                  onClick={this.onNextBtnClick.bind(this)}
+                  disabled={this.state.currentPage === this.props.pages}
+                >
+                  <span>Next</span>
+                  <span className="icon ">
+                    <i className="fas fa-arrow-right" />
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
