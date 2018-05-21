@@ -4,7 +4,9 @@ import {
   FETCH_CURRENT_QUIZ,
   SUMBIT_QUIZ_RESPONSE,
   SUMBIT_QUESTION,
-  QUIZ_LOADING
+  QUIZ_LOADING,
+  FETCH_QUESTIONS,
+  QUESTIONS_LOADING
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -33,5 +35,19 @@ export const submitQuestion = (data, history) => async dispatch => {
 export const setQuizLoading = () => {
   return {
     type: QUIZ_LOADING
+  };
+};
+
+// get questions by category
+export const getQuestions = (category, page) => async dispatch => {
+  dispatch(setQuestionsLoading());
+  const res = await axios.get(`/api/questions/${category}/${page}`);
+  dispatch({ type: FETCH_QUESTIONS, payload: res.data });
+};
+
+// Sets loading to true for questions
+export const setQuestionsLoading = () => {
+  return {
+    type: QUESTIONS_LOADING
   };
 };

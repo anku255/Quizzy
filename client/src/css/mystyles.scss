@@ -1,2 +1,45 @@
 /*Import Bulma: */
 @import 'bulma/bulma.sass';
+
+// Custom classes
+.radio-btn-label {
+  margin: 1.5px;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.radio-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.radio-btn {
+  margin-right: 10px;
+}
+
+.correctAns {
+  margin: 1.5px;
+  font-weight: 600;
+  color: green;
+  font-size: 1.25rem;
+}
+
+.incorrectAns {
+  margin: 1.5px;
+  font-weight: 600;
+  color: red;
+  font-size: 1.25rem;
+}
+
+.no-pointer-events {
+  pointer-events: none;
+}
+
+.ans-description {
+  text-align: left;
+  padding: 5px 20px;
+}
+
+.hidden {
+  display: none;
+}

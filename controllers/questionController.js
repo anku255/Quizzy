@@ -33,10 +33,10 @@ exports.getQuestions = async (req, res) => {
       .limit(limit)
       .sort({ index: 'asc' });
 
-    return res.json(questions);
+    return res.json({ questions, pages });
   }
 
-  res.json(questions);
+  res.json({ questions, pages });
 };
 
 exports.addQuestion = async (req, res) => {

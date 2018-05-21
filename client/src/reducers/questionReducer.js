@@ -1,9 +1,33 @@
-import { SUMBIT_QUESTION } from '../actions/types';
+import {
+  SUMBIT_QUESTION,
+  FETCH_QUESTIONS,
+  QUESTIONS_LOADING
+} from '../actions/types';
 
-export default function(state = null, action) {
+const initialState = {
+  question: {},
+  questions: []
+};
+
+export default function(state = initialState, action) {
   switch (action.type) {
+    case QUESTIONS_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
     case SUMBIT_QUESTION:
-      return action.payload;
+      return {
+        ...state,
+        question: action.payload
+      };
+    case FETCH_QUESTIONS:
+      return {
+        ...state,
+        questions: action.payload.questions,
+        pages: action.payload.pages,
+        loading: false
+      };
     default:
       return state;
   }
