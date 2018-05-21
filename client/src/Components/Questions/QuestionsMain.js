@@ -10,8 +10,7 @@ class QuestionsMain extends Component {
 
     this.state = {
       category: '',
-      prevPage: 1,
-      nextPage: 2
+      currentPage: 1
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -23,9 +22,21 @@ class QuestionsMain extends Component {
     const page = this.props.match.params.page;
     // Update category in state
     this.setState({
-      category
+      category,
+      currentPage: +page
     });
     this.props.getQuestions(category, page);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // If no of pages is smaller than this.state.currentPage
+    // then change currentPage to no of pages
+
+    if (nextProps.pages < this.state.currentPage) {
+      this.setState({
+        currentPage: nextProps.pages
+      });
+    }
   }
 
   handleInputChange(e) {
@@ -59,24 +70,25 @@ class QuestionsMain extends Component {
   onNextBtnClick(e) {
     e.preventDefault();
 
-    this.props.getQuestions(this.state.category, this.state.nextPage);
-    const nextPage = this.state.nextPage;
-    const updatedNextPage =
-      +this.props.pages <= nextPage ? nextPage : nextPage + 1;
-    this.setState({
-      nextPage: updatedNextPage
-    });
+    if (this.state.currentPage < this.props.pages) {
+      const nextPage = this.state.currentPage + 1;
+      this.setState({
+        currentPage: nextPage
+      });
+      this.props.getQuestions(this.state.category, nextPage);
+    }
   }
 
   onBackBtnClick(e) {
     e.preventDefault();
 
-    this.props.getQuestions(this.state.category, this.state.prevPage);
-    const prevPage = this.state.prevPage;
-    const updatedPrevPage = prevPage === 1 ? 1 : prevPage - 1;
-    this.setState({
-      prevPage: updatedPrevPage
-    });
+    if (this.state.currentPage > 1) {
+      const prevPage = this.state.currentPage - 1;
+      this.setState({
+        currentPage: prevPage
+      });
+      this.props.getQuestions(this.state.category, prevPage);
+    }
   }
 
   render() {
@@ -96,6 +108,7 @@ class QuestionsMain extends Component {
             <button
               className="button is-danger is-medium"
               onClick={this.onBackBtnClick.bind(this)}
+              disabled={this.state.currentPage === 1}
             >
               <span className="icon ">
                 <i className="fas fa-arrow-left " />
@@ -108,7 +121,7 @@ class QuestionsMain extends Component {
             <button
               className="button is-success is-medium"
               onClick={this.onNextBtnClick.bind(this)}
-              // disabled={this.props.pages  this.state.nextPage}
+              disabled={this.state.currentPage === this.props.pages}
             >
               <span>Next</span>
               <span className="icon ">
@@ -124,7 +137,7 @@ class QuestionsMain extends Component {
 
 const mapStateToProps = state => ({
   questions: state.question.questions,
-  pages: state.question.pages,
+  pages: +state.question.pages,
   loading: state.question.loading
 });
 
