@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import { submitQuizResponse } from '../../actions';
 import Solution from './Solution';
 
 class Answers extends Component {
@@ -38,13 +40,22 @@ class Answers extends Component {
     return result;
   }
 
-  componentDidMount = () => {
-      const result = this.evalResponse();
-      // call the action for sending response to server
-      this.props.submitQuizResponse(result);
-      this.setState({
-        responseSubmitted: true
+  componentWillReceiveProps(nextProps) {
+    const { submissonError } = nextProps.errors;
+    if (submissonError) {
+      toast.error(submissonError, {
+        position: toast.POSITION.TOP_CENTER
       });
+    }
+  }
+
+  componentDidMount = () => {
+    const result = this.evalResponse();
+    // call the action for sending response to server
+    this.props.submitQuizResponse(result);
+    this.setState({
+      responseSubmitted: true
+    });
   };
 
   render() {
@@ -57,9 +68,14 @@ class Answers extends Component {
           currentQuiz={this.state.currentQuiz}
           response={this.state.response}
         />
+        <ToastContainer />
       </div>
     );
   }
 }
 
-export default connect(null, actions)(Answers);
+const mapStateToProps = state => ({
+  errors: state.errors
+});
+
+export default connect(mapStateToProps, { submitQuizResponse })(Answers);

@@ -53,7 +53,9 @@ exports.submitCurrentQuiz = async (req, res) => {
 
   // If user has submitted already, return early
   if (req.user.lastSubmission === currentQuiz._id.toString())
-    return res.json({ message: 'User has already submitted!', error: true });
+    return res
+      .status(400)
+      .json({ submissonError: 'You have already submitted this quiz!' });
   else {
     req.user.lastSubmission = currentQuiz._id.toString();
     req.user.save();

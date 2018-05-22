@@ -6,7 +6,8 @@ import {
   ADD_QUESTION,
   QUIZ_LOADING,
   FETCH_QUESTIONS,
-  QUESTIONS_LOADING
+  QUESTIONS_LOADING,
+  GET_ERROR_MSG
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -21,8 +22,15 @@ export const fetchCurrentQuiz = () => async dispatch => {
 };
 
 export const submitQuizResponse = data => async dispatch => {
-  const res = await axios.post('/api/quiz/current', data);
-  dispatch({ type: SUMBIT_QUIZ_RESPONSE, payload: res.data });
+  try {
+    const res = await axios.post('/api/quiz/current', data);
+    dispatch({ type: SUMBIT_QUIZ_RESPONSE, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: GET_ERROR_MSG,
+      payload: err.response.data
+    });
+  }
 };
 
 export const addQuestion = (data, history) => async dispatch => {

@@ -5,3 +5,4 @@ export const ADD_QUESTION = 'add_question';
 export const QUIZ_LOADING = 'quiz_loading';
 export const FETCH_QUESTIONS = 'fetch_questions';
 export const QUESTIONS_LOADING = 'questions_loading';
+export const GET_ERROR_MSG = 'get_error-msg';
