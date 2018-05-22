@@ -1,4 +1,8 @@
-import { GET_ERROR_MSG, GET_SUCCESS_MSG } from '../actions/types';
+import {
+  GET_ERROR_MSG,
+  GET_SUCCESS_MSG,
+  CLEAR_NOTIFICATIONS
+} from '../actions/types';
 
 const initialState = {
   errors: {},
@@ -16,6 +20,8 @@ export default function(state = initialState, action) {
         ...state,
         success: action.payload
       };
+    case CLEAR_NOTIFICATIONS:
+      return initialState;
     default:
       return state;
   }

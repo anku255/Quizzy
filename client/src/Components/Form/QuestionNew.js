@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import { clearNotifications } from '../../actions';
 import QuestionForm from './QuestionForm';
 import QuestionFormReview from './QuestionFormReview';
 
@@ -15,12 +16,14 @@ class QuestionNew extends Component {
   componentWillReceiveProps(nextProps) {
     const { quesSubmissionError } = nextProps.errors;
     if (quesSubmissionError) {
-      return toast.error(quesSubmissionError);
+      toast.error(quesSubmissionError);
+      return this.props.clearNotifications();
     }
 
     const { quesSubmissionSuccess } = nextProps.success;
     if (quesSubmissionSuccess) {
-      return toast.success(quesSubmissionSuccess);
+      toast.success(quesSubmissionSuccess);
+      return this.props.clearNotifications();
     }
   }
 
@@ -57,7 +60,7 @@ const mapStateToProps = state => ({
 // Adding reduxForm here assures that the
 // form gets cleared when user presses the
 // cancel button
-export default connect(mapStateToProps)(
+export default connect(mapStateToProps, { clearNotifications })(
   reduxForm({
     form: 'questionForm'
   })(QuestionNew)

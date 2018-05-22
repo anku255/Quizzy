@@ -6,7 +6,8 @@ import {
   FETCH_QUESTIONS,
   QUESTIONS_LOADING,
   GET_ERROR_MSG,
-  GET_SUCCESS_MSG
+  GET_SUCCESS_MSG,
+  CLEAR_NOTIFICATIONS
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -62,5 +63,12 @@ export const getQuestions = (category, page) => async dispatch => {
 export const setQuestionsLoading = () => {
   return {
     type: QUESTIONS_LOADING
+  };
+};
+
+// clears all the notifications
+export const clearNotifications = () => {
+  return {
+    type: CLEAR_NOTIFICATIONS
   };
 };
