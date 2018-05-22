@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
-import { Link } from 'react-router-dom';
+import { fetchCurrentQuiz } from '../../actions';
 import Question from './Question';
 import Spinner from '../common/Spinner';
 
@@ -16,7 +15,10 @@ class Quiz extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      response: {}
+      response: {},
+      modalTitle: '',
+      modalMessage: '',
+      isSubmitDisabled: true
     };
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -36,12 +38,82 @@ class Quiz extends Component {
     });
   }
 
+  onSubmit(e) {
+    e.preventDefault();
+
+    // Check if user has marked all the questions
+    if (
+      Object.keys(this.state.response).length !== this.props.currentQuiz.length
+    ) {
+      this.setState({
+        modalTitle: 'Oops!',
+        modalMessage:
+          'Looks like you missed to answer some question(s). Click on the Cancel button and take a look again.'
+      });
+    } else {
+      this.setState({
+        modalTitle: 'Confirmation Required!',
+        modalMessage:
+          'Are you sure you want to submit your response? You will not be able to submit this quiz again.',
+        isSubmitDisabled: false
+      });
+    }
+
+    // Show the modal
+    this.toggleModal();
+  }
+
+  toggleModal() {
+    const modal = document.querySelector('.modal');
+    modal.classList.toggle('is-active');
+  }
+
+  renderModal() {
+    return (
+      <div className="modal">
+        <div className="modal-background" />
+        <div className="modal-card">
+          <header className="modal-card-head">
+            <p className="modal-card-title">{this.state.modalTitle}</p>
+          </header>
+          <section className="modal-card-body">
+            {this.state.modalMessage}
+          </section>
+          <footer className="modal-card-foot">
+            <button
+              className="button is-danger"
+              onClick={() => this.toggleModal()}
+            >
+              Cancel
+            </button>
+            <button
+              className="button is-success"
+              disabled={this.state.isSubmitDisabled}
+              onClick={() => {
+                this.props.history.push({
+                  pathname: '/current/answers',
+                  state: {
+                    response: this.state.response,
+                    currentQuiz: this.props.currentQuiz
+                  }
+                });
+              }}
+            >
+              Submit
+            </button>
+          </footer>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="container" style={{ margin: '20px auto' }}>
         <h2 className="is-size-2" style={{ textAlign: 'center' }}>
           Current Quiz
         </h2>
+        {this.renderModal()}
         {this.props.loading ? (
           <Spinner />
         ) : (
@@ -51,18 +123,12 @@ class Quiz extends Component {
               handleInputChange={this.handleInputChange}
             />
             <div style={classes.isCentered}>
-              <Link
+              <button
                 className="button is-primary"
-                to={{
-                  pathname: '/current/answers',
-                  state: {
-                    response: this.state.response,
-                    currentQuiz: this.props.currentQuiz
-                  }
-                }}
+                onClick={this.onSubmit.bind(this)}
               >
                 Submit
-              </Link>
+              </button>
             </div>
           </div>
         )}
@@ -78,4 +144,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(Quiz);
+export default connect(mapStateToProps, { fetchCurrentQuiz })(Quiz);
