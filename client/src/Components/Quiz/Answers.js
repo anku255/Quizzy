@@ -43,9 +43,12 @@ class Answers extends Component {
   componentWillReceiveProps(nextProps) {
     const { submissonError } = nextProps.errors;
     if (submissonError) {
-      toast.error(submissonError, {
-        position: toast.POSITION.TOP_CENTER
-      });
+      return toast.error(submissonError);
+    }
+
+    const { submissionSuccess } = nextProps.success;
+    if (submissionSuccess) {
+      return toast.success(submissionSuccess);
     }
   }
 
@@ -68,14 +71,15 @@ class Answers extends Component {
           currentQuiz={this.state.currentQuiz}
           response={this.state.response}
         />
-        <ToastContainer />
+        <ToastContainer position="top-center" />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  errors: state.notification.errors
+  errors: state.notification.errors,
+  success: state.notification.success
 });
 
 export default connect(mapStateToProps, { submitQuizResponse })(Answers);

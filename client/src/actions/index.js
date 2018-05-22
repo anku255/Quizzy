@@ -2,12 +2,12 @@ import axios from 'axios';
 import {
   FETCH_USER,
   FETCH_CURRENT_QUIZ,
-  SUMBIT_QUIZ_RESPONSE,
   ADD_QUESTION,
   QUIZ_LOADING,
   FETCH_QUESTIONS,
   QUESTIONS_LOADING,
-  GET_ERROR_MSG
+  GET_ERROR_MSG,
+  GET_SUCCESS_MSG
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -24,7 +24,7 @@ export const fetchCurrentQuiz = () => async dispatch => {
 export const submitQuizResponse = data => async dispatch => {
   try {
     const res = await axios.post('/api/quiz/current', data);
-    dispatch({ type: SUMBIT_QUIZ_RESPONSE, payload: res.data });
+    dispatch({ type: GET_SUCCESS_MSG, payload: res.data });
   } catch (err) {
     dispatch({
       type: GET_ERROR_MSG,

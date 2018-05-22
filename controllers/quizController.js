@@ -105,5 +105,7 @@ exports.submitCurrentQuiz = async (req, res) => {
 
   quizResponse[quizCategory] = answerArray; // Update answerArray
   await quizResponse.save(); // save quizResponse object
-  res.json({ message: 'success', error: false });
+  res.json({
+    submissionSuccess: 'Your Quiz response was submitted successfully'
+  });
 };
