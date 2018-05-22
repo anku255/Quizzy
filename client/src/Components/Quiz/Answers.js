@@ -75,7 +75,7 @@ class Answers extends Component {
 }
 
 const mapStateToProps = state => ({
-  errors: state.errors
+  errors: state.notification.errors
 });
 
 export default connect(mapStateToProps, { submitQuizResponse })(Answers);
