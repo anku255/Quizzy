@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import * as actions from '../actions';
+import { fetchUser } from '../actions';
 import Header from './Header';
 import Landing from './Landing';
 import Quiz from './Quiz/Quiz';
@@ -43,4 +43,4 @@ function mapStateToProps(state) {
   return { user: state.auth };
 }
 
-export default connect(mapStateToProps, actions)(App);
+export default connect(mapStateToProps, { fetchUser })(App);

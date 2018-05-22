@@ -2,7 +2,6 @@ import axios from 'axios';
 import {
   FETCH_USER,
   FETCH_CURRENT_QUIZ,
-  ADD_QUESTION,
   QUIZ_LOADING,
   FETCH_QUESTIONS,
   QUESTIONS_LOADING,
@@ -33,10 +32,16 @@ export const submitQuizResponse = data => async dispatch => {
   }
 };
 
-export const addQuestion = (data, history) => async dispatch => {
-  history.push('/');
-  const res = await axios.post('/api/question/new', data);
-  dispatch({ type: ADD_QUESTION, payload: res.data });
+export const addQuestion = (data, onCancel) => async dispatch => {
+  try {
+    const res = await axios.post('/api/question/new', data);
+    dispatch({ type: GET_SUCCESS_MSG, payload: res.data });
+  } catch (err) {
+    dispatch({ type: GET_ERROR_MSG, payload: err.response.data });
+  }
+  // calling onCancel sets showFormReview to false and
+  // QuestionNew component displays QuestionForm
+  onCancel();
 };
 
 // Sets loading to true

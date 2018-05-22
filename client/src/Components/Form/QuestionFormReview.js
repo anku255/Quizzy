@@ -21,12 +21,7 @@ const classes = {
   }
 };
 
-const QuestionFormReview = ({
-  onCancel,
-  formValues,
-  addQuestion,
-  history
-}) => {
+const QuestionFormReview = ({ onCancel, formValues, addQuestion }) => {
   const handleSubmit = (e, formValues) => {
     e.preventDefault();
 
@@ -35,7 +30,7 @@ const QuestionFormReview = ({
 
     // Substract 1 from correctAnsIndex
     result.correctAnsIndex -= 1;
-    addQuestion(result, history);
+    addQuestion(result, onCancel);
   };
 
   return (

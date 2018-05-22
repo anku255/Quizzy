@@ -33,7 +33,7 @@ const semestersArray = [1, 2, 3, 4, 5, 6, 7, 8];
 const categoriesArray = ['category1', 'category2', 'category3'];
 
 const QuestionForm = props => {
-  const { handleSubmit, onQuestionSubmit, pristine } = props;
+  const { handleSubmit, onQuestionSubmit, pristine, reset } = props;
   return (
     <div className="container">
       <div
@@ -115,6 +115,19 @@ const QuestionForm = props => {
                   </span>
                   <span>Cancel</span>
                 </Link>
+              </button>
+            </div>
+
+            <div className="control ">
+              <button
+                className="button is-warning is-medium"
+                disabled={pristine}
+                onClick={() => reset()}
+              >
+                <span>Reset</span>
+                <span className="icon ">
+                  <i className="fas fa-sync " />
+                </span>
               </button>
             </div>
 
