@@ -5,6 +5,8 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 const questionController = require('../controllers/questionController');
 const quizController = require('../controllers/quizController');
+const statsController = require('../controllers/statsController');
+const QuizResponse = mongoose.model('QuizResponse');
 
 router.get(
   '/auth/google',
@@ -31,7 +33,7 @@ router.post('/api/question/new', questionController.addQuestion);
 // Submit response of a question
 router.post('/api/question/submit', questionController.submitQuestion);
 
-// Test Routes
+// Quiz Routes
 
 router.post('/api/quiz/new', quizController.addQuiz);
 
@@ -40,5 +42,8 @@ router.post('/api/setCurrentQuiz', quizController.setCurrentQuiz);
 router.get('/api/quiz/current', quizController.getCurrentQuiz);
 
 router.post('/api/quiz/current', quizController.submitCurrentQuiz);
+
+// Stats Route
+router.get('/api/stats/category', statsController.getStatsByCategory);
 
 module.exports = router;
