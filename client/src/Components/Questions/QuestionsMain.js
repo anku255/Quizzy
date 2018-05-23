@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getQuestions } from '../../actions';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import {
+  getQuestions,
+  submitQuestionResponse,
+  clearNotifications
+} from '../../actions';
 import Questions from './Questions';
 import Spinner from '../common/Spinner';
 
@@ -37,19 +43,43 @@ class QuestionsMain extends Component {
         currentPage: nextProps.pages
       });
     }
+
+    const { submissionSuccess } = nextProps.success;
+    if (submissionSuccess) {
+      toast.success(submissionSuccess);
+      return this.props.clearNotifications();
+    }
+
+    if (Object.keys(nextProps.errors).length > 0) {
+      toast.error(JSON.stringify(nextProps.errors));
+      return this.props.clearNotifications();
+    }
   }
 
   handleInputChange(e) {
     const quesId = e.target.name;
     const quesIndex = +e.target.getAttribute('data-question-index');
+    const category = this.props.questions[quesIndex].category;
     const correctAnsIndex = this.props.questions[quesIndex].correctAnsIndex;
     const userClickedIndex = +e.target.getAttribute('data-choice-index');
+
+    // create a response object for this question
+    const userResponse = {
+      quesId,
+      category,
+      correctAnswer: false
+    };
 
     const labels = document.querySelectorAll(`label[name='${quesId}']`);
 
     labels.forEach((e, i) => {
       // If i is equal to correctAnsIndex then add correctAns class
       if (i === correctAnsIndex) {
+        // check if i also equal to userClickedIndex
+        if (i === userClickedIndex) {
+          // make correctAnswer to true in userResponse
+          userResponse.correctAnswer = true;
+        }
         return e.classList.add('correctAns', 'no-pointer-events');
       }
 
@@ -65,6 +95,9 @@ class QuestionsMain extends Component {
     const footer = document.getElementById(quesId);
     // remove class hidden from the footer
     footer.classList.remove('hidden');
+
+    // Call the action to submit question response
+    this.props.submitQuestionResponse(userResponse);
   }
 
   onNextBtnClick(e) {
@@ -140,6 +173,7 @@ class QuestionsMain extends Component {
             </div>
           </div>
         )}
+        <ToastContainer position="top-center" />
       </div>
     );
   }
@@ -148,7 +182,13 @@ class QuestionsMain extends Component {
 const mapStateToProps = state => ({
   questions: state.question.questions,
   pages: +state.question.pages,
-  loading: state.question.loading
+  loading: state.question.loading,
+  errors: state.notification.errors,
+  success: state.notification.success
 });
 
-export default connect(mapStateToProps, { getQuestions })(QuestionsMain);
+export default connect(mapStateToProps, {
+  getQuestions,
+  submitQuestionResponse,
+  clearNotifications
+})(QuestionsMain);

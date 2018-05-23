@@ -72,3 +72,19 @@ export const clearNotifications = () => {
     type: CLEAR_NOTIFICATIONS
   };
 };
+
+// submit the response for a single question
+export const submitQuestionResponse = userResponse => async dispatch => {
+  try {
+    const res = await axios.post('/api/question/submit', userResponse);
+    dispatch({
+      type: GET_SUCCESS_MSG,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_ERROR_MSG,
+      payload: err.response.data
+    });
+  }
+};

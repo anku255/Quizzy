@@ -53,8 +53,13 @@ exports.addQuestion = async (req, res) => {
 };
 
 // Sumbit response of a question
-// req.body = {quesID, category, correctAns, incorrectAns}
+// req.body = {quesId, category, correctAns}
 exports.submitQuestion = async (req, res) => {
+
+  if(!req.user) {
+    return res.status(401).json({notLoggedIn: 'You need to be logged in!'})
+  }
+
   const questionCategory = req.body.category;
   let quizResponse;
 
@@ -73,6 +78,12 @@ exports.submitQuestion = async (req, res) => {
 
   const answerArray = quizResponse[questionCategory];
 
+  if (!answerArray) {
+    return res
+      .status(400)
+      .json({ invalidCategory: 'Invalid question category' });
+  }
+
   const found = answerArray.find((obj, i) => {
     if (obj.questionId.toString() === req.body.quesId) {
       if (req.body.correctAnswer)
@@ -88,11 +99,11 @@ exports.submitQuestion = async (req, res) => {
     answerArray.push({
       questionId: req.body.quesId,
       correctCount: req.body.correctAnswer ? 1 : 0,
-      incorrectCount: req.body.incorrectAnswer ? 1 : 0
+      incorrectCount: !req.body.correctAnswer ? 1 : 0
     });
   }
 
   quizResponse[questionCategory] = answerArray; // Update answerArray
   await quizResponse.save(); // save quizResponse object
-  res.json({ message: 'success', error: false });
+  res.json({ submissionSuccess: 'Submission successful!' });
 };
