@@ -27,8 +27,7 @@ exports.addQuiz = async (req, res) => {
   const newQuiz = await new Quiz({
     startTime: new Date(req.body.startTime),
     endTime: new Date(req.body.endTime),
-    startIndex: req.body.startIndex,
-    endIndex: req.body.endIndex,
+    questions: req.body.questions,
     description: req.body.description || ''
   }).save();
 
