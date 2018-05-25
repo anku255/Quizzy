@@ -15,6 +15,11 @@ export const fetchUser = () => async dispatch => {
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
+// Update user profile
+export const updateUserProfile = userData => async dispatch => {
+  // TODO
+};
+
 export const fetchCurrentQuiz = () => async dispatch => {
   dispatch(setQuizLoading());
   const res = await axios.get('/api/quiz/current');

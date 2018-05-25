@@ -11,6 +11,7 @@ import QuestionNew from './Form/QuestionNew';
 import PrivateRoute from './common/PrivateRoute';
 import QuestionsMain from './Questions/QuestionsMain';
 import Dashboard from './Dashboard/Dashboard';
+import EditProfile from './Form/EditProfile';
 
 class App extends Component {
   componentDidMount = () => {
@@ -37,6 +38,14 @@ class App extends Component {
               user={this.props.user}
               path="/dashboard"
               component={Dashboard}
+            />
+          </Switch>
+          <Switch>
+            <PrivateRoute
+              exact
+              user={this.props.user}
+              path="/dashboard/edit-profile"
+              component={EditProfile}
             />
           </Switch>
           <Route path="/current/answers" component={Answers} />
