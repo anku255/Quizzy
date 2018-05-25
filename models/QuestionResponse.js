@@ -4,7 +4,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const { Schema } = mongoose;
 const { CATEGORY1, CATEGORY2 } = require('../constants/categories');
 
-const quizResponseSchema = new Schema({
+const questionResponseSchema = new Schema({
   [CATEGORY1]: [
     new Schema(
       {
@@ -27,8 +27,8 @@ const quizResponseSchema = new Schema({
   ]
 });
 
-quizResponseSchema.statics.getStatsByCategory = function(
-  quizResponseId,
+questionResponseSchema.statics.getStatsByCategory = function(
+  questionResponseId,
   category,
   correctCount,
   incorrectCount
@@ -57,7 +57,7 @@ quizResponseSchema.statics.getStatsByCategory = function(
     this.aggregate([
       {
         $match: {
-          _id: ObjectId(quizResponseId)
+          _id: ObjectId(questionResponseId)
         }
       },
       {
@@ -87,4 +87,4 @@ quizResponseSchema.statics.getStatsByCategory = function(
   });
 };
 
-module.exports = mongoose.model('QuizResponse', quizResponseSchema);
+module.exports = mongoose.model('QuestionResponse', questionResponseSchema);

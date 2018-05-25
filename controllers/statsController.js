@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
-const QuizResponse = mongoose.model('QuizResponse');
+const QuestionResponse = mongoose.model('QuestionResponse');
 
 exports.getStatsByCategory = async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ notLoggedIn: 'You need to be logged in!' });
   }
 
-  // Find the QuizResponse ID for the logged in user
-  const quizResponseId = req.user.quizResponse;
+  // Find the QuestionResponse ID for the logged in user
+  const questionResponseId = req.user.questionResponse;
 
-  if (!quizResponseId) {
+  if (!questionResponseId) {
     // user is yet to submit any quiz/question
     return res.json([]);
   }
@@ -18,8 +18,8 @@ exports.getStatsByCategory = async (req, res) => {
   const correctCount = parseInt(req.query.correctCount);
   const incorrectCount = parseInt(req.query.incorrectCount);
 
-  const result = await QuizResponse.getStatsByCategory(
-    quizResponseId,
+  const result = await QuestionResponse.getStatsByCategory(
+    questionResponseId,
     category,
     correctCount,
     incorrectCount

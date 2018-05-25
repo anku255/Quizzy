@@ -19,7 +19,7 @@ require('./models/User');
 require('./models/Question');
 require('./models/Quiz');
 require('./models/CurrentQuiz');
-require('./models/QuizResponse');
+require('./models/QuestionResponse');
 
 // start the app
 const app = require('./app');

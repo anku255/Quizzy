@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const Question = mongoose.model('Question');
-const QuizResponse = mongoose.model('QuizResponse');
+const QuestionResponse = mongoose.model('QuestionResponse');
 const { MODERATOR_LEVEL } = require('../constants/accessLevel');
 
 // Get a list of questions for a given category
@@ -55,28 +55,27 @@ exports.addQuestion = async (req, res) => {
 // Sumbit response of a question
 // req.body = {quesId, category, correctAns}
 exports.submitQuestion = async (req, res) => {
-
-  if(!req.user) {
-    return res.status(401).json({notLoggedIn: 'You need to be logged in!'})
+  if (!req.user) {
+    return res.status(401).json({ notLoggedIn: 'You need to be logged in!' });
   }
 
   const questionCategory = req.body.category;
-  let quizResponse;
+  let questionResponse;
 
-  // if quizResponse exists for the current user
-  // fetch quizResponse object
-  if (req.user.quizResponse) {
-    quizResponse = await QuizResponse.findById(req.user.quizResponse).select(
-      questionCategory
-    );
+  // if questionResponse exists for the current user
+  // fetch questionResponse object
+  if (req.user.questionResponse) {
+    questionResponse = await QuestionResponse.findById(
+      req.user.questionResponse
+    ).select(questionCategory);
   } else {
-    // otherwise create a new quizResponse object
-    quizResponse = await new QuizResponse().save();
-    req.user.quizResponse = quizResponse._id;
+    // otherwise create a new questionResponse object
+    questionResponse = await new QuestionResponse().save();
+    req.user.questionResponse = questionResponse._id;
     req.user.save(); // save the user
   }
 
-  const answerArray = quizResponse[questionCategory];
+  const answerArray = questionResponse[questionCategory];
 
   if (!answerArray) {
     return res
@@ -103,7 +102,7 @@ exports.submitQuestion = async (req, res) => {
     });
   }
 
-  quizResponse[questionCategory] = answerArray; // Update answerArray
-  await quizResponse.save(); // save quizResponse object
+  questionResponse[questionCategory] = answerArray; // Update answerArray
+  await questionResponse.save(); // save questionResponse object
   res.json({ submissionSuccess: 'Submission successful!' });
 };

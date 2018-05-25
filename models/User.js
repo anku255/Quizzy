@@ -8,9 +8,9 @@ const userSchema = new Schema({
   name: String,
   email: String,
   semester: Number,
-  quizResponse: {
+  questionResponse: {
     type: Schema.Types.ObjectId,
-    ref: 'QuizResponse'
+    ref: 'QuestionResponse'
   },
   lastSubmission: String,
   accessLevel: {

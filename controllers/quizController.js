@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Quiz = mongoose.model('Quiz');
 const CurrentQuiz = mongoose.model('CurrentQuiz');
 const Question = mongoose.model('Question');
-const QuizResponse = mongoose.model('QuizResponse');
+const QuestionResponse = mongoose.model('QuestionResponse');
 
 // Returns the list of questions for the current Quiz
 exports.getCurrentQuiz = async (req, res) => {
@@ -64,21 +64,21 @@ exports.submitCurrentQuiz = async (req, res) => {
   // Right Now, Only one category per quiz is supported
   const quizCategory = req.body[0]['category'];
 
-  let quizResponse;
-  // if quizResponse exists for the current user
-  // fetch quizResponse object
-  if (req.user.quizResponse) {
-    quizResponse = await QuizResponse.findById(req.user.quizResponse).select(
+  let questionResponse;
+  // if questionResponse exists for the current user
+  // fetch questionResponse object
+  if (req.user.questionResponse) {
+    questionResponse = await QuestionResponse.findById(req.user.questionResponse).select(
       quizCategory
     );
   } else {
-    // otherwise create a new quizResponse object
-    quizResponse = await new QuizResponse().save();
-    req.user.quizResponse = quizResponse._id;
+    // otherwise create a new questionResponse object
+    questionResponse = await new QuestionResponse().save();
+    req.user.questionResponse = questionResponse._id;
     req.user.save(); // save the user
   }
 
-  const answerArray = quizResponse[quizCategory];
+  const answerArray = questionResponse[quizCategory];
 
   // loop over reponses
   for (let ques of req.body) {
@@ -103,8 +103,8 @@ exports.submitCurrentQuiz = async (req, res) => {
     }
   }
 
-  quizResponse[quizCategory] = answerArray; // Update answerArray
-  await quizResponse.save(); // save quizResponse object
+  questionResponse[quizCategory] = answerArray; // Update answerArray
+  await questionResponse.save(); // save questionResponse object
   res.json({
     submissionSuccess: 'Your Quiz response was submitted successfully'
   });

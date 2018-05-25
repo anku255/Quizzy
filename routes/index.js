@@ -6,7 +6,6 @@ const authController = require('../controllers/authController');
 const questionController = require('../controllers/questionController');
 const quizController = require('../controllers/quizController');
 const statsController = require('../controllers/statsController');
-const QuizResponse = mongoose.model('QuizResponse');
 
 router.get(
   '/auth/google',
