@@ -12,14 +12,12 @@ const quizSchema = new Schema({
     type: Date,
     required: true
   },
-  startIndex: {
-    type: Number,
-    required: true
-  },
-  endIndex: {
-    type: Number,
-    required: true
-  },
+  questions: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Question'
+    }
+  ],
   description: String
 });
 
