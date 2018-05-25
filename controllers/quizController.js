@@ -7,14 +7,18 @@ const QuestionResponse = mongoose.model('QuestionResponse');
 // Returns the list of questions for the current Quiz
 exports.getCurrentQuiz = async (req, res) => {
   // get the current Quiz object
-  let currentQuiz = await CurrentQuiz.findOne().populate('currentQuizId');
-  currentQuiz = currentQuiz.currentQuizId;
+  let currentQuiz = await CurrentQuiz.findOne().populate([
+    {
+      path: 'currentQuizId',
+      model: 'Quiz',
+      populate: {
+        path: 'questions',
+        model: 'Question'
+      }
+    }
+  ]);
 
-  // fetch questions
-  const questions = await Question.find()
-    .skip(currentQuiz.startIndex)
-    .limit(currentQuiz.endIndex - currentQuiz.startIndex);
-
+  const questions = currentQuiz.currentQuizId.questions;
   res.json(questions);
 };
 
@@ -68,9 +72,9 @@ exports.submitCurrentQuiz = async (req, res) => {
   // if questionResponse exists for the current user
   // fetch questionResponse object
   if (req.user.questionResponse) {
-    questionResponse = await QuestionResponse.findById(req.user.questionResponse).select(
-      quizCategory
-    );
+    questionResponse = await QuestionResponse.findById(
+      req.user.questionResponse
+    ).select(quizCategory);
   } else {
     // otherwise create a new questionResponse object
     questionResponse = await new QuestionResponse().save();
