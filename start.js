@@ -20,6 +20,7 @@ require('./models/Question');
 require('./models/Quiz');
 require('./models/CurrentQuiz');
 require('./models/QuestionResponse');
+require('./models/QuizHistory');
 
 // start the app
 const app = require('./app');
