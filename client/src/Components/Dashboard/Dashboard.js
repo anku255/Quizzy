@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { clearNotifications } from '../../actions';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
 import DashboardHeader from './DashboardHeader';
 
 class Dashboard extends Component {

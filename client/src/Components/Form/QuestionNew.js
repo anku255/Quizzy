@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
 import { clearNotifications } from '../../actions';
 import QuestionForm from './QuestionForm';
 import QuestionFormReview from './QuestionFormReview';
