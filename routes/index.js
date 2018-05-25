@@ -25,6 +25,9 @@ router.get('/api/current_user', authController.getCurrentUser);
 
 router.get('/api/logout', authController.logout);
 
+// Update user profile
+router.post('/api/profile', authController.updateUserProfile);
+
 // Question Routes
 
 router.get('/api/questions/:category/:page', questionController.getQuestions);

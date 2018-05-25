@@ -36,7 +36,7 @@ class EditProfile extends Component {
   }
 
   handleFormSubmit(userData) {
-    this.props.updateUserProfile(userData);
+    this.props.updateUserProfile(userData, this.props.history);
   }
 
   render() {

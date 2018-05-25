@@ -16,8 +16,21 @@ export const fetchUser = () => async dispatch => {
 };
 
 // Update user profile
-export const updateUserProfile = userData => async dispatch => {
-  // TODO
+export const updateUserProfile = (userData, history) => async dispatch => {
+  try {
+    const res = await axios.post('/api/profile', userData);
+    dispatch(fetchUser());
+    dispatch({
+      type: GET_SUCCESS_MSG,
+      payload: res.data
+    });
+    history.push('/dashboard');
+  } catch (err) {
+    dispatch({
+      type: GET_ERROR_MSG,
+      payload: err.response.data
+    });
+  }
 };
 
 export const fetchCurrentQuiz = () => async dispatch => {
