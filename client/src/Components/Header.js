@@ -20,11 +20,11 @@ class Header extends Component {
       default:
         return [
           <p key="1" className="control">
-            <Link className="button is-warning" to="/profile">
+            <Link className="button is-warning" to="/dashboard">
               <span className="icon">
                 <i className="fas fa-user-circle" />
               </span>
-              <span>Profile</span>
+              <span>Dashboard</span>
             </Link>
           </p>,
           <p key="2" className="control">

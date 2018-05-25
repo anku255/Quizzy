@@ -6420,6 +6420,9 @@ label.panel-block {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem; }
 
+.container {
+  max-width: 980px; }
+
 .radio-btn-label {
   margin: 1.5px;
   font-weight: 500;

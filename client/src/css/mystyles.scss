@@ -2,6 +2,11 @@
 @import 'bulma/bulma.sass';
 
 // Custom classes
+
+.container {
+  max-width: 980px;
+}
+
 .radio-btn-label {
   margin: 1.5px;
   font-weight: 500;
