@@ -45,6 +45,8 @@ router.get('/api/quiz/current', quizController.getCurrentQuiz);
 
 router.post('/api/quiz/current', quizController.submitCurrentQuiz);
 
+router.get('/api/quiz/history', quizController.getQuizHistory);
+
 // Stats Route
 router.get('/api/stats/category', statsController.getStatsByCategory);
 

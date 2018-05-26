@@ -121,6 +121,33 @@ exports.submitCurrentQuiz = async (req, res) => {
   });
 };
 
+exports.getQuizHistory = async (req, res) => {
+  if (!req.user) {
+    res.status(401).json({ notLoggedIn: 'You need to be logged in!' });
+  }
+
+  if (!req.user.quizHistory) {
+    res.json({ emptyQuizHistory: 'No Quiz History found!' });
+  }
+
+  // fetch the quizHistory object
+  const quizHistory = await QuizHistory.findById(req.user.quizHistory);
+  const quizIds = quizHistory.quizIds;
+  const userResponses = quizHistory.userResponses;
+
+  let promises = [];
+  for (let i = 0; i < quizIds.length; i++) {
+    promises.push(Quiz.findById(quizIds[i]).populate('questions'));
+  }
+
+  const quizzes = await Promise.all(promises);
+
+  res.json({
+    quizzes,
+    userResponses
+  });
+};
+
 // Saves the quiz history
 saveQuizHistory = async (user, currentQuizId, userResponse) => {
   let quizHistory;
