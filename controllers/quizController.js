@@ -3,6 +3,7 @@ const Quiz = mongoose.model('Quiz');
 const CurrentQuiz = mongoose.model('CurrentQuiz');
 const Question = mongoose.model('Question');
 const QuestionResponse = mongoose.model('QuestionResponse');
+const QuizHistory = mongoose.model('QuizHistory');
 
 // Returns the list of questions for the current Quiz
 exports.getCurrentQuiz = async (req, res) => {
@@ -53,19 +54,26 @@ exports.setCurrentQuiz = async (req, res) => {
 exports.submitCurrentQuiz = async (req, res) => {
   // get currentQuiz from DB
   const currentQuiz = await CurrentQuiz.findOne();
+  const currentQuizId = currentQuiz.currentQuizId.toString();
 
   // If user has submitted already, return early
-  if (req.user.lastSubmission === currentQuiz._id.toString())
+  if (req.user.lastSubmission === currentQuizId)
     return res
       .status(400)
       .json({ submissonError: 'You have already submitted this quiz!' });
   else {
-    req.user.lastSubmission = currentQuiz._id.toString();
+    req.user.lastSubmission = currentQuizId;
     req.user.save();
   }
 
+  const userResult = req.body.userResult;
+  const userResponse = req.body.userResponse;
+
+  // Save QuizHistory
+  saveQuizHistory(req.user, currentQuizId, userResponse);
+
   // Right Now, Only one category per quiz is supported
-  const quizCategory = req.body[0]['category'];
+  const quizCategory = userResult[0]['category'];
 
   let questionResponse;
   // if questionResponse exists for the current user
@@ -84,7 +92,7 @@ exports.submitCurrentQuiz = async (req, res) => {
   const answerArray = questionResponse[quizCategory];
 
   // loop over reponses
-  for (let ques of req.body) {
+  for (let ques of userResult) {
     const found = answerArray.find((obj, i) => {
       if (obj.questionId.toString() === ques.quesId) {
         if (ques.correctAnswer)
@@ -111,4 +119,39 @@ exports.submitCurrentQuiz = async (req, res) => {
   res.json({
     submissionSuccess: 'Your Quiz response was submitted successfully'
   });
+};
+
+// Saves the quiz history
+saveQuizHistory = async (user, currentQuizId, userResponse) => {
+  let quizHistory;
+  if (user.quizHistory) {
+    // Fetch QuizHistory object for the user
+    quizHistory = await QuizHistory.findById(user.quizHistory);
+  } else {
+    // Create a new QuizHistory object for the user
+    quizHistory = await new QuizHistory().save();
+    user.quizHistory = quizHistory._id;
+    user.save();
+  }
+
+  const quizIds = quizHistory.quizIds;
+  const userResponses = quizHistory.userResponses;
+
+  // Check if there are already 3 items in quizIds array
+  if (quizIds.length === 3) {
+    // Pop oldest entry from both quizIds and userResponses array
+    quizIds.shift();
+    userResponses.shift();
+  }
+
+  // Push currentQuizId and userResponse to their respective arrays
+  quizIds.push(currentQuizId);
+  userResponses.push(userResponse);
+
+  // Update quizHistory
+  quizHistory.quizIds = quizIds;
+  quizHistory.userResponses = userResponses;
+
+  // Save quizHistory
+  quizHistory.save();
 };

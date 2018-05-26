@@ -12,6 +12,10 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'QuestionResponse'
   },
+  quizHistory: {
+    type: Schema.Types.ObjectId,
+    ref: 'QuizHistory'
+  },
   lastSubmission: String,
   accessLevel: {
     type: Number,

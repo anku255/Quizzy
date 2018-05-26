@@ -52,12 +52,16 @@ class Answers extends Component {
   }
 
   componentDidMount = () => {
-    const result = this.evalResponse();
+    const userResult = this.evalResponse();
+
+    // Create a new object to send to the server which
+    // also includes the response object
+    const result = {
+      userResponse: this.state.response,
+      userResult
+    };
     // call the action for sending response to server
     this.props.submitQuizResponse(result);
-    this.setState({
-      responseSubmitted: true
-    });
   };
 
   render() {
