@@ -123,11 +123,14 @@ exports.submitCurrentQuiz = async (req, res) => {
 
 exports.getQuizHistory = async (req, res) => {
   if (!req.user) {
-    res.status(401).json({ notLoggedIn: 'You need to be logged in!' });
+    return res.status(401).json({ notLoggedIn: 'You need to be logged in!' });
   }
 
+  console.log(req.user);
+
   if (!req.user.quizHistory) {
-    res.json({ emptyQuizHistory: 'No Quiz History found!' });
+    console.log('I am here');
+    return res.json({ emptyQuizHistory: 'No Quiz History found!' });
   }
 
   // fetch the quizHistory object

@@ -14,23 +14,28 @@ class DashboardHistory extends Component {
     if (this.props.loading) {
       cardContent = <Spinner />;
     } else {
-      cardContent = this.props.quizzes.map((quiz, i) => {
-        return (
-          <div key={quiz._id}>
-            <Link
-              to={{
-                pathname: '/dashboard/quiz-history',
-                state: {
-                  questions: quiz.questions,
-                  response: this.props.userResponses[i]
-                }
-              }}
-            >
-              Quiz {i + 1} taken on {new Date(quiz.startTime).toLocaleString()}
-            </Link>
-          </div>
-        );
-      });
+      if (!this.props.quizzes) {
+        cardContent = <div>No Quiz History found!</div>;
+      } else {
+        cardContent = this.props.quizzes.map((quiz, i) => {
+          return (
+            <div key={quiz._id}>
+              <Link
+                to={{
+                  pathname: '/dashboard/quiz-history',
+                  state: {
+                    questions: quiz.questions,
+                    response: this.props.userResponses[i]
+                  }
+                }}
+              >
+                Quiz {i + 1} taken on{' '}
+                {new Date(quiz.startTime).toLocaleString()}
+              </Link>
+            </div>
+          );
+        });
+      }
     }
 
     return (
