@@ -7,7 +7,8 @@ import {
   QUESTIONS_LOADING,
   GET_ERROR_MSG,
   GET_SUCCESS_MSG,
-  CLEAR_NOTIFICATIONS
+  CLEAR_NOTIFICATIONS,
+  FETCH_QUIZ_HISTORY
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -104,5 +105,18 @@ export const submitQuestionResponse = userResponse => async dispatch => {
       type: GET_ERROR_MSG,
       payload: err.response.data
     });
+  }
+};
+
+// fetch quiz history object
+export const getQuizHistory = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/quiz/history');
+    dispatch({
+      type: FETCH_QUIZ_HISTORY,
+      payload: res.data
+    });
+  } catch (err) {
+    console.error(err);
   }
 };

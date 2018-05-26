@@ -4,11 +4,13 @@ import authReducer from '../reducers/authReducer';
 import quizReducer from '../reducers/quizReducer';
 import questionReducer from '../reducers/questionReducer';
 import notificationReducer from '../reducers/notificationReducer';
+import quizHistoryReducer from '../reducers/quizHistoryReducer';
 
 export default combineReducers({
   auth: authReducer,
   quiz: quizReducer,
   question: questionReducer,
   form: formReducer,
-  notification: notificationReducer
+  notification: notificationReducer,
+  quizHistory: quizHistoryReducer
 });

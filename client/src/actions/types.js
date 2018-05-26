@@ -8,3 +8,4 @@ export const QUESTIONS_LOADING = 'questions_loading';
 export const GET_ERROR_MSG = 'get_error_msg';
 export const GET_SUCCESS_MSG = 'get_success_msg';
 export const CLEAR_NOTIFICATIONS = 'clear_notifications';
+export const FETCH_QUIZ_HISTORY = 'fetch_quiz_history';
