@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 class Landing extends Component {
   renderNavLinks() {
@@ -34,12 +33,12 @@ class Landing extends Component {
 
       default:
         return (
-          <Link className="button is-white is-outlined" to="/dashboard">
+          <a className="button is-white is-outlined" href="/dashboard">
             <span>Go to Dashboard</span>
             <span className="icon">
               <i className="fas fa-arrow-right" />
             </span>
-          </Link>
+          </a>
         );
     }
   }
