@@ -1,25 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { renderTextField, renderSelectField } from '../Form/formFields';
-import { categoriesArray } from '../common/selectValues';
-import { Field, reduxForm } from 'redux-form';
 import { getQuizStats } from '../../actions';
-
-const validate = values => {
-  const errors = {};
-
-  if (!values['category']) {
-    errors['category'] = 'Required';
-  }
-
-  if (values['correctCount'] < 0)
-    errors['correctCount'] = 'Correct Count must be positive.';
-
-  if (values['incorrectCount'] < 0)
-    errors['incorrectCount'] = 'Incorrect Count must be positive.';
-
-  return errors;
-};
+import StatsForm from './StatsForm';
 
 class StatsMain extends Component {
   onSubmit(values) {
@@ -46,44 +28,7 @@ class StatsMain extends Component {
             </p>
           </header>
           <div className="card-content">
-            {/* handleSubmit is provided by reduxForm. handleSubmit is called with
-          all the values from the form */}
-            <form onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}>
-              <div className="columns">
-                <div className="column">
-                  <Field
-                    name="category"
-                    component={renderSelectField}
-                    label="Category"
-                    valuesArray={categoriesArray}
-                  />
-                </div>
-
-                <div className="column">
-                  <Field
-                    name="correctCount"
-                    type="number"
-                    label="Correct Count"
-                    component={renderTextField}
-                    placeholder="Correct Count"
-                  />
-                </div>
-                <div className="column">
-                  <Field
-                    name="incorrectCount"
-                    type="number"
-                    label="Incorrect Count"
-                    component={renderTextField}
-                    placeholder="Incorrect Count"
-                  />
-                </div>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <button className="button is-primary" type="submit">
-                  Submit
-                </button>
-              </div>
-            </form>
+            <StatsForm onSubmit={this.onSubmit.bind(this)} />
           </div>
         </div>
       </div>
@@ -95,9 +40,4 @@ const mapStateToProps = state => ({
   questions: state.quizStats
 });
 
-export default connect(mapStateToProps, { getQuizStats })(
-  reduxForm({
-    form: 'statsForm', // a unique identifier for this form
-    validate
-  })(StatsMain)
-);
+export default connect(mapStateToProps, { getQuizStats })(StatsMain);
