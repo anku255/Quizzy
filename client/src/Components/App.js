@@ -24,8 +24,11 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div>
-          <Header user={this.props.user} />
           <Route exact path="/" component={Landing} />
+          <Route
+            path="/(.+)"
+            render={() => <Header user={this.props.user} />}
+          />
           <Switch>
             <PrivateRoute
               exact
