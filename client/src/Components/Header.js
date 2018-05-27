@@ -20,6 +20,14 @@ class Header extends Component {
       default:
         return [
           <p key="1" className="control">
+            <Link className="button is-warning" to="/stats">
+              <span className="icon">
+                <i className="fas fa-file-alt" />
+              </span>
+              <span>Stats</span>
+            </Link>
+          </p>,
+          <p key="2" className="control">
             <Link className="button is-warning" to="/dashboard">
               <span className="icon">
                 <i className="fas fa-user-circle" />
@@ -27,7 +35,7 @@ class Header extends Component {
               <span>Dashboard</span>
             </Link>
           </p>,
-          <p key="2" className="control">
+          <p key="3" className="control">
             <a className="button is-light" href="/api/logout">
               <span className="icon">
                 <i className="fas fa-sign-out-alt" />
