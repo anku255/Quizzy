@@ -46,7 +46,7 @@ exports.addQuestion = async (req, res) => {
       quesSubmissionError: "You dont' have permission to add a question."
     });
   }
-  // const question = await new Question(req.body).save();
+  const question = await new Question(req.body).save();
   res.json({
     quesSubmissionSuccess: 'Question Submission Successful!'
   });
