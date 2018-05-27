@@ -1,9 +1,16 @@
 import { FETCH_QUIZ_STATS } from '../actions/types';
 
-export default function(state = null, action) {
+const initialState = {
+  questions: []
+};
+
+export default function(state = initialState, action) {
   switch (action.type) {
     case FETCH_QUIZ_STATS:
-      return action.payload;
+      return {
+        questions: action.payload,
+        loading: false
+      };
     default:
       return state;
   }
