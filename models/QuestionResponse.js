@@ -37,18 +37,18 @@ questionResponseSchema.statics.getStatsByCategory = function(
 
   if (correctCount && incorrectCount) {
     andConditionArray = [
-      { $eq: ['$$category.correctCount', correctCount] },
-      { $eq: ['$$category.incorrectCount', incorrectCount] }
+      { $gte: ['$$category.correctCount', correctCount] },
+      { $gte: ['$$category.incorrectCount', incorrectCount] }
     ];
   }
 
   if (correctCount && !incorrectCount) {
-    andConditionArray = [{ $eq: ['$$category.correctCount', correctCount] }];
+    andConditionArray = [{ $gte: ['$$category.correctCount', correctCount] }];
   }
 
   if (incorrectCount && !correctCount) {
     andConditionArray = [
-      { $eq: ['$$category.incorrectCount', incorrectCount] }
+      { $gte: ['$$category.incorrectCount', incorrectCount] }
     ];
   }
 
