@@ -53,7 +53,7 @@ class Header extends Component {
         <div className="navbar-brand">
           <Link
             className="navbar-item"
-            to="/"
+            to="/dashboard"
             style={{ fontWeight: 'bold', fontSize: '20px' }}
           >
             Quizzy
