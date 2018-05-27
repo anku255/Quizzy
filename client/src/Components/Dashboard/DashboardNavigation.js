@@ -16,7 +16,12 @@ class DashboardNavigation extends Component {
             <ul className="menu-list">
               {categoriesArray.map(category => (
                 <li key={category}>
-                  <Link to={`/questions/${category}/1`}>{category}</Link>
+                  <Link
+                    to={`/questions/${category}/1`}
+                    style={{ color: '#0c202e', fontWeight: 600 }}
+                  >
+                    {category}
+                  </Link>
                 </li>
               ))}
             </ul>

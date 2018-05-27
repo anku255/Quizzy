@@ -17,24 +17,31 @@ class DashboardHistory extends Component {
       if (!this.props.quizzes) {
         cardContent = <div>No Quiz History found!</div>;
       } else {
-        cardContent = this.props.quizzes.map((quiz, i) => {
-          return (
-            <div key={quiz._id}>
-              <Link
-                to={{
-                  pathname: '/dashboard/quiz-history',
-                  state: {
-                    questions: quiz.questions,
-                    response: this.props.userResponses[i]
-                  }
-                }}
-              >
-                Quiz {i + 1} taken on{' '}
-                {new Date(quiz.startTime).toLocaleString()}
-              </Link>
-            </div>
-          );
-        });
+        cardContent = (
+          <aside className="menu">
+            <ul className="menu-list">
+              {this.props.quizzes.map((quiz, i) => {
+                return (
+                  <li key={quiz._id}>
+                    <Link
+                      to={{
+                        pathname: '/dashboard/quiz-history',
+                        state: {
+                          questions: quiz.questions,
+                          response: this.props.userResponses[i]
+                        }
+                      }}
+                      style={{ color: '#423ecf', fontWeight: 600 }}
+                    >
+                      Quiz {i + 1} taken on{' '}
+                      {new Date(quiz.startTime).toLocaleString()}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </aside>
+        );
       }
     }
 
