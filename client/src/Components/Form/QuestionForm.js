@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
+import { categoriesArray, semestersArray } from '../common/selectValues';
 import {
   renderTextAreaField,
   renderTextField,
@@ -28,9 +29,6 @@ const validate = values => {
 
   return errors;
 };
-
-const semestersArray = [1, 2, 3, 4, 5, 6, 7, 8];
-const categoriesArray = ['category1', 'category2', 'category3'];
 
 const QuestionForm = props => {
   const { handleSubmit, onQuestionSubmit, pristine, reset } = props;
