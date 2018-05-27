@@ -62,7 +62,7 @@ questionResponseSchema.statics.getStatsByCategory = function(
       },
       {
         $project: {
-          category1: {
+          [category]: {
             $filter: {
               input: `$${category}`,
               as: 'category',
