@@ -79,8 +79,13 @@ questionResponseSchema.statics.getStatsByCategory = function(
         result,
         { path: `${category}.questionId` },
         (err, newResult) => {
+          // extract the array of question from newResult
+          let questions = newResult[0][category];
+          // questions array is an array of object which contains
+          // properties like correctCount. Map over it to keep only the questions
+          questions = questions.map(obj => obj.questionId);
           // resolve the promise
-          resolve(newResult);
+          resolve(questions);
         }
       );
     });

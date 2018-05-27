@@ -18,12 +18,15 @@ exports.getStatsByCategory = async (req, res) => {
   const correctCount = parseInt(req.query.correctCount);
   const incorrectCount = parseInt(req.query.incorrectCount);
 
+  if (!correctCount && !incorrectCount) {
+    return res.json([]);
+  }
+
   const result = await QuestionResponse.getStatsByCategory(
     questionResponseId,
     category,
     correctCount,
     incorrectCount
   );
-
   res.json(result);
 };
