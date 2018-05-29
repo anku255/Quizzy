@@ -11,22 +11,47 @@ exports.getStatsByCategory = async (req, res) => {
 
   if (!questionResponseId) {
     // user is yet to submit any quiz/question
-    return res.json([]);
+    return res.json({ questions: [], pages: 1 });
   }
 
-  const category = req.query.category;
-  const correctCount = parseInt(req.query.correctCount);
-  const incorrectCount = parseInt(req.query.incorrectCount);
+  const category = req.params.category;
+  let page = req.params.page || 1;
+  let limit = 5;
+  let skip = page * limit - limit;
 
-  if (!correctCount && !incorrectCount) {
-    return res.json([]);
-  }
+  const questionsPromise = QuestionResponse.find(
+    { _id: questionResponseId },
+    { category: 1, [category]: { $slice: [skip, skip + limit] } }
+  ).populate(`${category}.questionId`);
 
-  const result = await QuestionResponse.getStatsByCategory(
+  const countPromise = QuestionResponse.getQuestionsCount(
     questionResponseId,
-    category,
-    correctCount,
-    incorrectCount
+    category
   );
-  res.json(result);
+
+  let [response, count] = await Promise.all([questionsPromise, countPromise]);
+
+  let questions = response[0][category];
+
+  let pages = Math.ceil(count / limit);
+
+  if (pages === 0) pages = 1; // pages shouldn't be 0
+
+  // Page no exceeded than highest page no.
+  if (!questions.length && skip) {
+    // set page to last page no
+    page = pages;
+    skip = page * limit - limit;
+
+    response = await QuestionResponse.find(
+      { _id: questionResponseId },
+      { category: 1, [category]: { $slice: [skip, skip + limit] } }
+    ).populate(`${category}.questionId`);
+
+    questions = response[0][category];
+
+    return res.json({ questions, pages });
+  }
+
+  res.json({ questions, pages });
 };

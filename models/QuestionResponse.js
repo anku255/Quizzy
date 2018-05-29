@@ -27,32 +27,10 @@ const questionResponseSchema = new Schema({
   ]
 });
 
-questionResponseSchema.statics.getStatsByCategory = function(
+questionResponseSchema.statics.getQuestionsCount = function(
   questionResponseId,
-  category,
-  correctCount,
-  incorrectCount
+  category
 ) {
-  let andConditionArray = [];
-
-  if (correctCount && incorrectCount) {
-    andConditionArray = [
-      { $gte: ['$$category.correctCount', correctCount] },
-      { $gte: ['$$category.incorrectCount', incorrectCount] }
-    ];
-  }
-
-  if (correctCount && !incorrectCount) {
-    andConditionArray = [{ $gte: ['$$category.correctCount', correctCount] }];
-  }
-
-  if (incorrectCount && !correctCount) {
-    andConditionArray = [
-      { $gte: ['$$category.incorrectCount', incorrectCount] }
-    ];
-  }
-
-  // Return a Promise
   return new Promise(resolve => {
     this.aggregate([
       {
@@ -62,32 +40,13 @@ questionResponseSchema.statics.getStatsByCategory = function(
       },
       {
         $project: {
-          [category]: {
-            $filter: {
-              input: `$${category}`,
-              as: 'category',
-              cond: {
-                $and: andConditionArray
-              }
-            }
-          }
+          _id: 0,
+          noOfQuestions: { $size: `$${category}` }
         }
       }
-    ]).exec((err, result) => {
-      // populate questionId field
-      this.populate(
-        result,
-        { path: `${category}.questionId` },
-        (err, newResult) => {
-          // extract the array of question from newResult
-          let questions = newResult[0][category];
-          // questions array is an array of object which contains
-          // properties like correctCount. Map over it to keep only the questions
-          questions = questions.map(obj => obj.questionId);
-          // resolve the promise
-          resolve(questions);
-        }
-      );
+    ]).exec((err, response) => {
+      const result = response[0].noOfQuestions;
+      resolve(result);
     });
   });
 };

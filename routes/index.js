@@ -48,6 +48,6 @@ router.post('/api/quiz/current', quizController.submitCurrentQuiz);
 router.get('/api/quiz/history', quizController.getQuizHistory);
 
 // Stats Route
-router.get('/api/stats/category', statsController.getStatsByCategory);
+router.get('/api/stats/:category/:page', statsController.getStatsByCategory);
 
 module.exports = router;
