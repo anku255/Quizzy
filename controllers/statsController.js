@@ -15,23 +15,33 @@ exports.getStatsByCategory = async (req, res) => {
   }
 
   const category = req.params.category;
+  const sortBy = req.params.sortBy;
   let page = req.params.page || 1;
   let limit = 5;
   let skip = page * limit - limit;
+  let order = -1;
 
-  const questionsPromise = QuestionResponse.find(
-    { _id: questionResponseId },
-    { category: 1, [category]: { $slice: [skip, skip + limit] } }
-  ).populate(`${category}.questionId`);
+  if (req.params.order === 'ascending') {
+    order = 1;
+  }
+
+  console.log('sortBy', sortBy, 'order', order, 'skip', skip, 'limit', limit);
+
+  const questionsPromise = QuestionResponse.getStatsByCategory(
+    questionResponseId,
+    category,
+    sortBy,
+    order,
+    skip,
+    limit
+  );
 
   const countPromise = QuestionResponse.getQuestionsCount(
     questionResponseId,
     category
   );
 
-  let [response, count] = await Promise.all([questionsPromise, countPromise]);
-
-  let questions = response[0][category];
+  let [questions, count] = await Promise.all([questionsPromise, countPromise]);
 
   let pages = Math.ceil(count / limit);
 
@@ -43,13 +53,14 @@ exports.getStatsByCategory = async (req, res) => {
     page = pages;
     skip = page * limit - limit;
 
-    response = await QuestionResponse.find(
-      { _id: questionResponseId },
-      { category: 1, [category]: { $slice: [skip, skip + limit] } }
-    ).populate(`${category}.questionId`);
-
-    questions = response[0][category];
-
+    response = await QuestionResponse.getStatsByCategory(
+      questionResponseId,
+      category,
+      sortBy,
+      order,
+      skip,
+      limit
+    );
     return res.json({ questions, pages });
   }
 
