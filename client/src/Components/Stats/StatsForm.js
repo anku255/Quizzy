@@ -33,6 +33,7 @@ const StatsForm = ({ handleSubmit, onSubmit, pristine }) => {
             component={renderSelectField}
             label="Sort By"
             valuesArray={['correctCount', 'incorrectCount']}
+            helpText="Defaults to incorrectCount"
           />
         </div>
         <div className="column">
@@ -41,6 +42,7 @@ const StatsForm = ({ handleSubmit, onSubmit, pristine }) => {
             component={renderSelectField}
             label="Order"
             valuesArray={['ascending', 'descending']}
+            helpText="Defaults to descending"
           />
         </div>
       </div>

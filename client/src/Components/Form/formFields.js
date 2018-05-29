@@ -53,6 +53,7 @@ export const renderSelectField = ({
   input,
   label,
   valuesArray,
+  helpText,
   meta: { touched, error }
 }) => (
   <div className="field ">
@@ -70,5 +71,6 @@ export const renderSelectField = ({
       </div>
     </div>
     <p className="help is-danger">{touched && error}</p>
+    <p className="help has-text-grey">{helpText}</p>
   </div>
 );
