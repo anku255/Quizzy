@@ -8,7 +8,8 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case FETCH_QUIZ_STATS:
       return {
-        questions: action.payload,
+        questions: action.payload.questions,
+        pages: action.payload.pages,
         loading: false
       };
     default:

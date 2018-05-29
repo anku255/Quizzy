@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderTextField, renderSelectField } from '../Form/formFields';
+import { renderSelectField } from '../Form/formFields';
 import { categoriesArray } from '../common/selectValues';
 import { Field, reduxForm } from 'redux-form';
 
@@ -9,12 +9,6 @@ const validate = values => {
   if (!values['category']) {
     errors['category'] = 'Required';
   }
-
-  if (values['correctCount'] < 0)
-    errors['correctCount'] = 'Correct Count must be positive.';
-
-  if (values['incorrectCount'] < 0)
-    errors['incorrectCount'] = 'Incorrect Count must be positive.';
 
   return errors;
 };
@@ -33,23 +27,20 @@ const StatsForm = ({ handleSubmit, onSubmit, pristine }) => {
             valuesArray={categoriesArray}
           />
         </div>
-
         <div className="column">
           <Field
-            name="correctCount"
-            type="number"
-            label="Correct Count"
-            component={renderTextField}
-            placeholder="Correct Count"
+            name="sortBy"
+            component={renderSelectField}
+            label="Sort By"
+            valuesArray={['correctCount', 'incorrectCount']}
           />
         </div>
         <div className="column">
           <Field
-            name="incorrectCount"
-            type="number"
-            label="Incorrect Count"
-            component={renderTextField}
-            placeholder="Incorrect Count"
+            name="order"
+            component={renderSelectField}
+            label="Order"
+            valuesArray={['ascending', 'descending']}
           />
         </div>
       </div>

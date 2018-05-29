@@ -123,9 +123,16 @@ export const getQuizHistory = () => async dispatch => {
 };
 
 // fetch quiz stats
-export const getQuizStats = queryData => async dispatch => {
+export const getQuizStats = (
+  category,
+  page,
+  sortBy,
+  order
+) => async dispatch => {
   try {
-    const res = await axios.get('/api/stats/category', queryData);
+    const res = await axios.get(
+      `/api/stats/${category}/${page}/${sortBy}/${order}`
+    );
     dispatch({
       type: FETCH_QUIZ_STATS,
       payload: res.data

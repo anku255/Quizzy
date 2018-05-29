@@ -7,12 +7,16 @@ import {
   clearNotifications
 } from '../../actions';
 import StatsForm from './StatsForm';
-import Questions from '../Questions/Questions';
+import StatsQuestions from './StatsQuestions';
 import Spinner from '../common/Spinner';
 
 class StatsMain extends Component {
   state = {
-    loading: false
+    loading: false,
+    currentPage: 1,
+    category: '',
+    sortBy: 'incorrectCount',
+    order: 'descending'
   };
 
   componentWillReceiveProps(nextProps) {
@@ -34,28 +38,34 @@ class StatsMain extends Component {
 
   // handles the submission of form
   onSubmit(values) {
-    // Set loading to true
-    this.setState({ loading: true });
+    // Update loading,category, sortBy and order
+    // Fetch QuizStats after the setState has executed
+    let sortBy = this.state.sortBy;
+    let order = this.state.order;
 
-    // This query object will be sent to the server
-    const query = {
-      params: {}
-    };
-    const { correctCount } = values;
-    const { incorrectCount } = values;
-    if (correctCount) query.params.correctCount = correctCount;
-    if (incorrectCount) query.params.incorrectCount = incorrectCount;
-    query.params.category = values.category;
+    if (values.sortBy) sortBy = values.sortBy;
+    if (values.order) order = values.order;
 
-    this.props.getQuizStats(query);
+    this.setState(
+      { loading: true, category: values.category, sortBy, order },
+      () => {
+        this.props.getQuizStats(
+          this.state.category,
+          this.state.currentPage,
+          this.state.sortBy,
+          this.state.order
+        );
+      }
+    );
   }
 
   // handles the click on an option of a question
   handleInputChange(e) {
     const quesId = e.target.name;
     const quesIndex = +e.target.getAttribute('data-question-index');
-    const category = this.props.questions[quesIndex].category;
-    const correctAnsIndex = this.props.questions[quesIndex].correctAnsIndex;
+    const category = this.props.questions[quesIndex].questionId.category;
+    const correctAnsIndex = this.props.questions[quesIndex].questionId
+      .correctAnsIndex;
     const userClickedIndex = +e.target.getAttribute('data-choice-index');
 
     // create a response object for this question
@@ -95,6 +105,44 @@ class StatsMain extends Component {
     this.props.submitQuestionResponse(userResponse);
   }
 
+  onNextBtnClick(e) {
+    e.preventDefault();
+
+    this.setState({ loading: true });
+
+    if (this.state.currentPage < this.props.pages) {
+      const nextPage = this.state.currentPage + 1;
+      this.setState({
+        currentPage: nextPage
+      });
+      this.props.getQuizStats(
+        this.state.category,
+        nextPage,
+        this.state.sortBy,
+        this.state.order
+      );
+    }
+  }
+
+  onBackBtnClick(e) {
+    e.preventDefault();
+
+    this.setState({ loading: true });
+
+    if (this.state.currentPage > 1) {
+      const prevPage = this.state.currentPage - 1;
+      this.setState({
+        currentPage: prevPage
+      });
+      this.props.getQuizStats(
+        this.state.category,
+        prevPage,
+        this.state.sortBy,
+        this.state.order
+      );
+    }
+  }
+
   // Displays No questions found card
   renderNoQuestionsFound() {
     return (
@@ -126,19 +174,48 @@ class StatsMain extends Component {
           show NoQuestionFound card
         */}
         {this.props.questions.length === 0 && !this.state.loading ? (
-          this.renderNoQuestionsFound() // If loading is true then show loading
-        ) : // Otherwise show Questions component
-        this.state.loading ? (
+          this.renderNoQuestionsFound() // Otherwise show Questions component // If loading is true then show loading
+        ) : this.state.loading ? (
           <Spinner />
         ) : (
           <React.Fragment>
             <h2 className="is-size-2" style={{ textAlign: 'center' }}>
               Questions
             </h2>
-            <Questions
-              currentQuiz={this.props.questions}
+            <StatsQuestions
+              Questions={this.props.questions}
               handleInputChange={this.handleInputChange.bind(this)}
             />
+            <div
+              className="field is-grouped "
+              style={{ display: 'flex', justifyContent: 'space-evenly' }}
+            >
+              <div className="control ">
+                <button
+                  className="button is-danger is-medium"
+                  onClick={this.onBackBtnClick.bind(this)}
+                  disabled={this.state.currentPage === 1}
+                >
+                  <span className="icon ">
+                    <i className="fas fa-arrow-left " />
+                  </span>
+                  <span>Back</span>
+                </button>
+              </div>
+
+              <div className="control ">
+                <button
+                  className="button is-success is-medium"
+                  onClick={this.onNextBtnClick.bind(this)}
+                  disabled={this.state.currentPage === this.props.pages}
+                >
+                  <span>Next</span>
+                  <span className="icon ">
+                    <i className="fas fa-arrow-right" />
+                  </span>
+                </button>
+              </div>
+            </div>
           </React.Fragment>
         )}
         <ToastContainer position="top-center" />
@@ -149,6 +226,7 @@ class StatsMain extends Component {
 
 const mapStateToProps = state => ({
   questions: state.quizStats.questions,
+  pages: state.quizStats.pages,
   loading: state.quizStats.loading,
   errors: state.notification.errors,
   success: state.notification.success
