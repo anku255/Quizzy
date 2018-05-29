@@ -51,4 +51,58 @@ questionResponseSchema.statics.getQuestionsCount = function(
   });
 };
 
+questionResponseSchema.statics.getStatsByCategory = function(
+  questionResponseId,
+  category,
+  sortBy,
+  order,
+  skip,
+  limit
+) {
+  return new Promise(resolve => {
+    this.aggregate([
+      {
+        $match: {
+          _id: ObjectId(questionResponseId)
+        }
+      },
+      {
+        $project: {
+          [category]: 1
+        }
+      },
+      {
+        $unwind: `$${category}`
+      },
+      {
+        $sort: {
+          [`${category}.${sortBy}`]: order
+        }
+      },
+      {
+        $skip: skip
+      },
+      {
+        $limit: limit
+      },
+      {
+        $group: {
+          [category]: {
+            $push: `$${category}`
+          },
+          _id: 1
+        }
+      }
+    ]).exec((err, result) => {
+      this.populate(
+        result,
+        { path: `${category}.questionId` },
+        (err, newResult) => {
+          resolve(newResult[0][category]);
+        }
+      );
+    });
+  });
+};
+
 module.exports = mongoose.model('QuestionResponse', questionResponseSchema);
