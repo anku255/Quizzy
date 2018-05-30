@@ -1,58 +1,17 @@
 import React from 'react';
-const classes = {
-  radioContainer: {
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  radioBtnLabel: {
-    margin: '1.5px',
-    fontSize: '1.2rem',
-    fontWeight: 500
-  },
-  radioBtn: {
-    marginRight: '10px'
-  }
-};
-
-const renderChoices = (Question, quesIndex, handleInputChange) => {
-  return Question.choices.map((choice, index) => {
-    return (
-      <label
-        key={choice}
-        className="radio"
-        style={classes.radioBtnLabel}
-        onChange={handleInputChange}
-      >
-        <input
-          type="radio"
-          name={Question._id}
-          value={choice}
-          data-question-id={Question._id}
-          data-choice-index={index}
-          style={classes.radioBtn}
-        />
-        {choice}
-      </label>
-    );
-  });
-};
+import { QuestionTitle, Choices } from '../common/QuestionCard';
 
 export default ({ currentQuiz, handleInputChange }) => {
   return currentQuiz.map((Question, index) => {
     return (
       <div key={Question._id} className="card" style={{ margin: '20px auto' }}>
-        <header className="card-header">
-          <p
-            className="is-size-4"
-            style={{ textAlign: 'left', padding: '5px 20px' }}
-          >
-            {Question.text}
-          </p>
-        </header>
+        <QuestionTitle title={Question.text} />
         <div className="card-content">
-          <div className="control" style={classes.radioContainer}>
-            {renderChoices(Question, index, handleInputChange)}
-          </div>
+          <Choices
+            Question={Question}
+            index={index}
+            handleInputChange={handleInputChange}
+          />
         </div>
       </div>
     );

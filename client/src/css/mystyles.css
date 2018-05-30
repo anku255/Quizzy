@@ -6475,3 +6475,9 @@ label.panel-block {
 
 .hidden {
   display: none; }
+
+span.choice > p {
+  display: inline; }
+
+.subtitle {
+  margin-bottom: 1px; }

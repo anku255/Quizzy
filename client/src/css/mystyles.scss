@@ -71,3 +71,12 @@
 .hidden {
   display: none;
 }
+
+// Make choices inline
+span.choice > p {
+  display: inline;
+}
+
+.subtitle {
+  margin-bottom: 1px;
+}
