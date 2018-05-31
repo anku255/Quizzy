@@ -6,6 +6,7 @@ import reduxThunk from 'redux-thunk';
 import './css/mystyles.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import 'katex/dist/katex.min.css';
+import './utils/markdown-it-texmath/css/texmath.css';
 import './utils/fontawesome/js/fontawesome-all.min.js';
 import './index.css';
 import './utils/scripts';

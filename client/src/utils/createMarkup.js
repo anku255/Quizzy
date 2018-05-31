@@ -1,5 +1,5 @@
 import katex from 'katex';
-import tmModule from 'markdown-it-texmath';
+import tmModule from './markdown-it-texmath/texmath';
 import mdModule from 'markdown-it';
 const tm = tmModule.use(katex);
 const md = mdModule().use(tm, { delimiters: 'dollars' });
