@@ -80,3 +80,18 @@ span.choice > p {
 .subtitle {
   margin-bottom: 1px;
 }
+
+// QuestionForm
+.preview-label {
+  color: #363636;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.preview {
+  padding: 10px;
+  width: 100%;
+  border: 0.5px solid black;
+  min-height: 118px;
+}

@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { addQuestion } from '../../actions';
 import { withRouter } from 'react-router-dom';
+import { QuestionTitle, AnswerDescription } from '../common/QuestionCard';
+import createMarkup from '../../utils/createMarkup';
 
 const classes = {
   radioContainer: {
@@ -54,14 +56,7 @@ const QuestionFormReview = ({ onCancel, formValues, addQuestion }) => {
           </span>
         </div>
         <div className="card" style={{ margin: '20px auto' }}>
-          <header className="card-header">
-            <p
-              className="is-size-4"
-              style={{ textAlign: 'left', padding: '5px 20px' }}
-            >
-              {formValues.text}
-            </p>
-          </header>
+          <QuestionTitle title={formValues.text} />
           <div className="card-content">
             <div className="control" style={classes.radioContainer}>
               {formValues.choices.split(', ').map((choice, index) => (
@@ -76,17 +71,18 @@ const QuestionFormReview = ({ onCancel, formValues, addQuestion }) => {
                     style={classes.radioBtn}
                     readOnly
                   />
-                  {choice}
+                  <span
+                    className="choice"
+                    dangerouslySetInnerHTML={createMarkup(choice)}
+                  />
                 </label>
               ))}
             </div>
           </div>
-          <footer className="card-footer">
-            <div className="content" style={classes.ansDescription}>
-              <div className="subtitle">Answer description</div>
-              {formValues.ansDescription}
-            </div>
-          </footer>
+          <AnswerDescription
+            description={formValues.ansDescription}
+            hidden={false}
+          />
         </div>
         <div
           className="field is-grouped "

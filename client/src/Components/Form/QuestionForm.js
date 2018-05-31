@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { categoriesArray, semestersArray } from '../common/selectValues';
@@ -7,6 +7,7 @@ import {
   renderTextField,
   renderSelectField
 } from './formFields';
+import createMarkup from '../../utils/createMarkup';
 
 const validate = values => {
   const errors = {};
@@ -30,122 +31,159 @@ const validate = values => {
   return errors;
 };
 
-const QuestionForm = props => {
-  const { handleSubmit, onQuestionSubmit, pristine, reset } = props;
-  return (
-    <div className="container">
-      <div
-        style={{
-          margin: '20px 50px',
-          padding: '20px',
-          border: '2px solid rgb(177, 173, 173)'
-        }}
-      >
-        <div className="title" style={{ textAlign: 'center' }}>
-          Question Form
-        </div>
-        <form onSubmit={handleSubmit(() => onQuestionSubmit())}>
-          <Field
-            name="text"
-            component={renderTextAreaField}
-            label="Question Text"
-            placeholder="Question Text"
-            rows="1"
-          />
+class QuestionForm extends Component {
+  state = {
+    text: '',
+    ansDescription: ''
+  };
 
-          <Field
-            name="choices"
-            component={renderTextField}
-            label="Options"
-            type="text"
-            placeholder="option-1, option-2..."
-            helpText="Enter comma seperated options [Ex. option 1, option 2, option 3..]"
-          />
+  updatePreview(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
 
-          <div className="columns">
-            <div className="column">
-              <Field
-                name="correctAnsIndex"
-                type="number"
-                label="Correct Answer Index"
-                component={renderTextField}
-                placeholder="Correct Answer Index"
-                helpText="Index should be in the range [1: 4]"
-              />
-            </div>
-
-            <div className="column">
-              <Field
-                name="semester"
-                component={renderSelectField}
-                label="Semester"
-                valuesArray={semestersArray}
-              />
-            </div>
-
-            <div className="column">
-              <Field
-                name="category"
-                component={renderSelectField}
-                label="Category"
-                valuesArray={categoriesArray}
-              />
-            </div>
+  render() {
+    const { handleSubmit, onQuestionSubmit, pristine, reset } = this.props;
+    return (
+      <div className="container">
+        <div
+          style={{
+            margin: '20px 50px',
+            padding: '20px',
+            border: '2px solid rgb(177, 173, 173)'
+          }}
+        >
+          <div className="title" style={{ textAlign: 'center' }}>
+            Question Form
           </div>
+          <form onSubmit={handleSubmit(() => onQuestionSubmit())}>
+            <div className="columns">
+              <div className="column">
+                <Field
+                  name="text"
+                  component={renderTextAreaField}
+                  label="Question Text"
+                  placeholder="Question Text"
+                  onChange={this.updatePreview.bind(this)}
+                  rows="4"
+                />
+              </div>
+              <div className="column">
+                <div className="preview-label">Question Text Preview</div>
+                <div
+                  className="preview"
+                  dangerouslySetInnerHTML={createMarkup(this.state.text)}
+                />
+              </div>
+            </div>
 
-          <Field
-            name="ansDescription"
-            component={renderTextAreaField}
-            label="Answer Description"
-            placeholder="Answer Description"
-            rows="2"
-          />
+            <Field
+              name="choices"
+              component={renderTextField}
+              label="Options"
+              type="text"
+              placeholder="option-1, option-2..."
+              helpText="Enter comma seperated options [Ex. option 1, option 2, option 3..]"
+            />
 
-          <div
-            className="field is-grouped "
-            style={{ display: 'flex', justifyContent: 'space-evenly' }}
-          >
-            <div className="control ">
-              <button className="button is-danger is-medium ">
-                <Link to="/" className="has-text-white">
+            <div className="columns">
+              <div className="column">
+                <Field
+                  name="correctAnsIndex"
+                  type="number"
+                  label="Correct Answer Index"
+                  component={renderTextField}
+                  placeholder="Correct Answer Index"
+                  helpText="Index should be in the range [1: 4]"
+                />
+              </div>
+
+              <div className="column">
+                <Field
+                  name="semester"
+                  component={renderSelectField}
+                  label="Semester"
+                  valuesArray={semestersArray}
+                />
+              </div>
+
+              <div className="column">
+                <Field
+                  name="category"
+                  component={renderSelectField}
+                  label="Category"
+                  valuesArray={categoriesArray}
+                />
+              </div>
+            </div>
+
+            <div className="columns">
+              <div className="column">
+                <Field
+                  name="ansDescription"
+                  component={renderTextAreaField}
+                  onChange={this.updatePreview.bind(this)}
+                  label="Answer Description"
+                  placeholder="Answer Description"
+                  rows="4"
+                />
+              </div>
+              <div className="column">
+                <div className="preview-label">Answer Description Preview</div>
+                <div
+                  className="preview"
+                  dangerouslySetInnerHTML={createMarkup(
+                    this.state.ansDescription
+                  )}
+                />
+              </div>
+            </div>
+
+            <div
+              className="field is-grouped "
+              style={{ display: 'flex', justifyContent: 'space-evenly' }}
+            >
+              <div className="control ">
+                <button className="button is-danger is-medium ">
+                  <Link to="/" className="has-text-white">
+                    <span className="icon ">
+                      <i className="fas fa-ban " />
+                    </span>
+                    <span>Cancel</span>
+                  </Link>
+                </button>
+              </div>
+
+              <div className="control ">
+                <button
+                  className="button is-warning is-medium"
+                  disabled={pristine}
+                  onClick={() => reset()}
+                >
+                  <span>Reset</span>
                   <span className="icon ">
-                    <i className="fas fa-ban " />
+                    <i className="fas fa-sync " />
                   </span>
-                  <span>Cancel</span>
-                </Link>
-              </button>
-            </div>
+                </button>
+              </div>
 
-            <div className="control ">
-              <button
-                className="button is-warning is-medium"
-                disabled={pristine}
-                onClick={() => reset()}
-              >
-                <span>Reset</span>
-                <span className="icon ">
-                  <i className="fas fa-sync " />
-                </span>
-              </button>
+              <div className="control ">
+                <button
+                  className="button is-success is-medium"
+                  disabled={pristine}
+                >
+                  <span>Next</span>
+                  <span className="icon ">
+                    <i className="fas fa-arrow-right " />
+                  </span>
+                </button>
+              </div>
             </div>
-
-            <div className="control ">
-              <button
-                className="button is-success is-medium"
-                disabled={pristine}
-              >
-                <span>Next</span>
-                <span className="icon ">
-                  <i className="fas fa-arrow-right " />
-                </span>
-              </button>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default reduxForm({
   form: 'questionForm', // a unique identifier for this form
