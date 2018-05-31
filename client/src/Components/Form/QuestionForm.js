@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { categoriesArray, semestersArray } from '../common/selectValues';
 import {
@@ -36,6 +37,16 @@ class QuestionForm extends Component {
     text: '',
     ansDescription: ''
   };
+
+  componentDidMount() {
+    // Update preview on re-render
+    const { questionForm } = this.props;
+    if (questionForm) {
+      const { values } = questionForm;
+      const { text, ansDescription } = values;
+      this.setState({ text, ansDescription });
+    }
+  }
 
   updatePreview(e) {
     this.setState({ [e.target.name]: e.target.value });
@@ -179,8 +190,14 @@ class QuestionForm extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'questionForm', // a unique identifier for this form
-  validate,
-  destroyOnUnmount: false
-})(QuestionForm);
+const mapStateToProps = state => ({
+  questionForm: state.form.questionForm
+});
+
+export default connect(mapStateToProps)(
+  reduxForm({
+    form: 'questionForm', // a unique identifier for this form
+    validate,
+    destroyOnUnmount: false
+  })(QuestionForm)
+);
