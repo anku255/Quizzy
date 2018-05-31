@@ -81,7 +81,18 @@ span.choice > p {
   margin-bottom: 1px;
 }
 
+.centered-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 // QuestionForm
+.form-container {
+  margin: 20px 50px;
+  padding: 20px;
+  border: 2px solid rgb(177, 173, 173);
+}
+
 .preview-label {
   color: #363636;
   font-size: 1rem;

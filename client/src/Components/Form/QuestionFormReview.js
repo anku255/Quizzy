@@ -5,24 +5,6 @@ import { withRouter } from 'react-router-dom';
 import { QuestionTitle, AnswerDescription } from '../common/QuestionCard';
 import createMarkup from '../../utils/createMarkup';
 
-const classes = {
-  radioContainer: {
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  radioBtn: {
-    marginRight: '10px'
-  },
-  radioBtnLabel: {
-    margin: '2px',
-    fontSize: '1.2rem',
-    fontWeight: 500
-  },
-  ansDescription: {
-    padding: '5px 20px'
-  }
-};
-
 const QuestionFormReview = ({ onCancel, formValues, addQuestion }) => {
   const handleSubmit = (e, formValues) => {
     e.preventDefault();
@@ -37,17 +19,11 @@ const QuestionFormReview = ({ onCancel, formValues, addQuestion }) => {
 
   return (
     <div className="container">
-      <div
-        style={{
-          margin: '20px 50px',
-          padding: '20px',
-          border: '2px solid rgb(177, 173, 173)'
-        }}
-      >
+      <div className="form-container">
         <div className="title" style={{ textAlign: 'center' }}>
           Please Confirm Your Entries!
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+        <div className="centered-container">
           <span className="tag is-rounded is-info">
             Category: {formValues.category}
           </span>
@@ -58,17 +34,13 @@ const QuestionFormReview = ({ onCancel, formValues, addQuestion }) => {
         <div className="card" style={{ margin: '20px auto' }}>
           <QuestionTitle title={formValues.text} />
           <div className="card-content">
-            <div className="control" style={classes.radioContainer}>
+            <div className="control radio-container">
               {formValues.choices.split(', ').map((choice, index) => (
-                <label
-                  key={choice}
-                  className="radio"
-                  style={classes.radioBtnLabel}
-                >
+                <label key={choice} className="radio radio-btn-label">
                   <input
                     type="radio"
+                    className="radio-btn"
                     checked={+formValues.correctAnsIndex === index + 1}
-                    style={classes.radioBtn}
                     readOnly
                   />
                   <span

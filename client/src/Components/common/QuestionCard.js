@@ -91,7 +91,7 @@ export const AnswerDescription = ({ id, description, hidden }) => {
 
 export const Count = ({ correct, incorrect }) => {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+    <div className="centered-container">
       <span className="tag is-rounded is-success">{correct}</span>
       <span className="tag is-rounded is-danger">{incorrect}</span>
     </div>

@@ -45,13 +45,7 @@ class QuestionForm extends Component {
     const { handleSubmit, onQuestionSubmit, pristine, reset } = this.props;
     return (
       <div className="container">
-        <div
-          style={{
-            margin: '20px 50px',
-            padding: '20px',
-            border: '2px solid rgb(177, 173, 173)'
-          }}
-        >
+        <div className="form-container">
           <div className="title" style={{ textAlign: 'center' }}>
             Question Form
           </div>

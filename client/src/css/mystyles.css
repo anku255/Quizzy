@@ -6482,6 +6482,15 @@ span.choice > p {
 .subtitle {
   margin-bottom: 1px; }
 
+.centered-container {
+  display: flex;
+  justify-content: space-evenly; }
+
+.form-container {
+  margin: 20px 50px;
+  padding: 20px;
+  border: 2px solid #b1adad; }
+
 .preview-label {
   color: #363636;
   font-size: 1rem;
