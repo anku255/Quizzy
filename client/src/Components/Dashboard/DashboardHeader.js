@@ -2,6 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const DashboardHeader = ({ user }) => {
+  const EditProfileButton = (
+    <Link
+      style={{ color: 'white' }}
+      className="is-small"
+      to="/dashboard/edit-profile"
+    >
+      <i className="fas fa-pencil-alt" />
+    </Link>
+  );
+
   return (
     <div
       className="card"
@@ -24,14 +34,21 @@ const DashboardHeader = ({ user }) => {
         <h1 className="is-size-5">{user.email}</h1>
         <h1 className="is-size-6">
           {user.semester ? (
-            <span>Semester: {user.semester}</span>
+            <span>
+              Semester: {user.semester} {EditProfileButton}{' '}
+            </span>
           ) : (
             <span>Add your semester</span>
           )}
         </h1>
-        <Link className="button is-small" to="/dashboard/edit-profile">
-          Edit Profile
-        </Link>
+        {/* Show New Question button only when user has access greater than 2 */}
+        {user.accessLevel >= 2 ? (
+          <Link className="button is-white is-outlined" to="/question/new">
+            New Question
+          </Link>
+        ) : (
+          ''
+        )}
       </div>
     </div>
   );
