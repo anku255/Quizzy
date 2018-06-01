@@ -14,6 +14,14 @@ class DashboardNavigation extends Component {
         <div className="card-content">
           <aside className="menu">
             <ul className="menu-list">
+              <li key="current">
+                <Link
+                  to="/current"
+                  style={{ color: '#0c202e', fontWeight: 600 }}
+                >
+                  Current Quiz
+                </Link>
+              </li>
               {categoriesArray.map(category => (
                 <li key={category}>
                   <Link
