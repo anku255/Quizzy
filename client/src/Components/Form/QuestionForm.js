@@ -43,8 +43,10 @@ class QuestionForm extends Component {
     const { questionForm } = this.props;
     if (questionForm) {
       const { values } = questionForm;
-      const { text, ansDescription } = values;
-      this.setState({ text, ansDescription });
+      if (values) {
+        const { text, ansDescription } = values;
+        this.setState({ text, ansDescription });
+      }
     }
   }
 
@@ -149,7 +151,7 @@ class QuestionForm extends Component {
             >
               <div className="control ">
                 <button className="button is-danger is-medium ">
-                  <Link to="/" className="has-text-white">
+                  <Link to="/dashboard" className="has-text-white">
                     <span className="icon ">
                       <i className="fas fa-ban " />
                     </span>
