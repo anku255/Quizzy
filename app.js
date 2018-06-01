@@ -1,4 +1,5 @@
 const express = require('express');
+const compression = require('compression');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -17,6 +18,8 @@ app.use(
     keys: [process.env.COOKIE_KEY]
   })
 );
+
+app.use(compression());
 
 app.use(passport.initialize());
 app.use(passport.session());
