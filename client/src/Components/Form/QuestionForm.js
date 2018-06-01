@@ -54,6 +54,11 @@ class QuestionForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  onFormReset(reset) {
+    this.setState({ text: '', ansDescription: '' });
+    reset();
+  }
+
   render() {
     const { handleSubmit, onQuestionSubmit, pristine, reset } = this.props;
     return (
@@ -164,7 +169,7 @@ class QuestionForm extends Component {
                 <button
                   className="button is-warning is-medium"
                   disabled={pristine}
-                  onClick={() => reset()}
+                  onClick={this.onFormReset.bind(this, reset)}
                 >
                   <span>Reset</span>
                   <span className="icon ">
