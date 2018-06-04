@@ -15,7 +15,11 @@ const questionSchema = new Schema({
   },
   ansDescription: String,
   semester: Number,
-  category: String
+  category: String,
+  published: {
+    type: Boolean,
+    default: false
+  }
 });
 
 questionSchema.plugin(autoIncrement.plugin, {
