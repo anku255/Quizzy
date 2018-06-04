@@ -25,8 +25,6 @@ exports.getStatsByCategory = async (req, res) => {
     order = 1;
   }
 
-  console.log('sortBy', sortBy, 'order', order, 'skip', skip, 'limit', limit);
-
   const questionsPromise = QuestionResponse.getStatsByCategory(
     questionResponseId,
     category,
