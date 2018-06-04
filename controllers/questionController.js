@@ -11,7 +11,7 @@ exports.getQuestions = async (req, res) => {
   let limit = 5;
   let skip = page * limit - limit;
 
-  const questionsPromise = Question.find({ category })
+  const questionsPromise = Question.find({ category, published: true })
     .skip(skip)
     .limit(limit)
     .sort({ index: 'asc' });
