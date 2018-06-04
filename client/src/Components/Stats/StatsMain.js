@@ -47,7 +47,13 @@ class StatsMain extends Component {
     if (values.order) order = values.order;
 
     this.setState(
-      { loading: true, category: values.category, sortBy, order },
+      {
+        loading: true,
+        category: values.category,
+        currentPage: 1,
+        sortBy,
+        order
+      },
       () => {
         this.props.getQuizStats(
           this.state.category,
@@ -232,8 +238,11 @@ const mapStateToProps = state => ({
   success: state.notification.success
 });
 
-export default connect(mapStateToProps, {
-  getQuizStats,
-  submitQuestionResponse,
-  clearNotifications
-})(StatsMain);
+export default connect(
+  mapStateToProps,
+  {
+    getQuizStats,
+    submitQuestionResponse,
+    clearNotifications
+  }
+)(StatsMain);
