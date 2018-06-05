@@ -3,6 +3,7 @@ import './App.css';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { fetchUser } from '../actions';
+import { MODERATOR_LEVEL } from '../constants/accessLevel';
 import Header from './Header';
 import Landing from './Landing';
 import Quiz from './Quiz/Quiz';
@@ -69,8 +70,16 @@ class App extends Component {
               component={StatsMain}
             />
           </Switch>
+          <Switch>
+            <PrivateRoute
+              exact
+              user={this.props.user}
+              RequiredAccessLevel={MODERATOR_LEVEL}
+              path="/question/new"
+              component={QuestionNew}
+            />
+          </Switch>
           <Route path="/current/answers" component={Answers} />
-          <Route path="/question/new" component={QuestionNew} />
           <Route path="/questions/:category/:page" component={QuestionsMain} />
         </div>
       </BrowserRouter>
@@ -82,4 +91,7 @@ function mapStateToProps(state) {
   return { user: state.auth };
 }
 
-export default connect(mapStateToProps, { fetchUser })(App);
+export default connect(
+  mapStateToProps,
+  { fetchUser }
+)(App);
