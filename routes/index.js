@@ -6,6 +6,7 @@ const authController = require('../controllers/authController');
 const questionController = require('../controllers/questionController');
 const quizController = require('../controllers/quizController');
 const statsController = require('../controllers/statsController');
+const adminController = require('../controllers/adminController');
 
 router.get(
   '/auth/google',
@@ -52,5 +53,10 @@ router.get(
   '/api/stats/:category/:page/:sortBy/:order',
   statsController.getStatsByCategory
 );
+
+// Admin Routes
+
+// Get unpublished questions
+router.get('/api/admin/questions', adminController.getUnpublishedQuestions);
 
 module.exports = router;
