@@ -9,7 +9,8 @@ import {
   GET_SUCCESS_MSG,
   CLEAR_NOTIFICATIONS,
   FETCH_QUIZ_HISTORY,
-  FETCH_QUIZ_STATS
+  FETCH_QUIZ_STATS,
+  FETCH_UNPUBLISHED_QUESTIONS
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -140,4 +141,13 @@ export const getQuizStats = (
   } catch (err) {
     console.error(err);
   }
+};
+
+// fetch unpublished questions
+export const getUnpublisehdQuestions = () => async dispatch => {
+  const res = await axios.get('/api/admin/questions');
+  dispatch({
+    type: FETCH_UNPUBLISHED_QUESTIONS,
+    payload: res.data
+  });
 };

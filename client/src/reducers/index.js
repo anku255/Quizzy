@@ -6,6 +6,7 @@ import questionReducer from '../reducers/questionReducer';
 import notificationReducer from '../reducers/notificationReducer';
 import quizHistoryReducer from '../reducers/quizHistoryReducer';
 import statsReducer from './statsReducer';
+import adminReducer from './adminReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   form: formReducer,
   notification: notificationReducer,
   quizHistory: quizHistoryReducer,
-  quizStats: statsReducer
+  quizStats: statsReducer,
+  admin: adminReducer
 });

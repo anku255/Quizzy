@@ -3,7 +3,7 @@ import './App.css';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { fetchUser } from '../actions';
-import { MODERATOR_LEVEL } from '../constants/accessLevel';
+import { MODERATOR_LEVEL, ADMIN_LEVEL } from '../constants/accessLevel';
 import Header from './Header';
 import Landing from './Landing';
 import Quiz from './Quiz/Quiz';
@@ -15,6 +15,7 @@ import Dashboard from './Dashboard/Dashboard';
 import EditProfile from './Form/EditProfile';
 import QuizHistory from './Dashboard/QuizHistory/QuizHistory';
 import StatsMain from './Stats/StatsMain';
+import QuestionsManager from './Admin/QuestionsManager';
 
 class App extends Component {
   componentDidMount = () => {
@@ -77,6 +78,15 @@ class App extends Component {
               RequiredAccessLevel={MODERATOR_LEVEL}
               path="/question/new"
               component={QuestionNew}
+            />
+          </Switch>
+          <Switch>
+            <PrivateRoute
+              exact
+              user={this.props.user}
+              RequiredAccessLevel={ADMIN_LEVEL}
+              path="/admin/questions"
+              component={QuestionsManager}
             />
           </Switch>
           <Route path="/current/answers" component={Answers} />
