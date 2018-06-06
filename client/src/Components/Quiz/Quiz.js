@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchCurrentQuiz } from '../../actions';
-import Question from './Question';
+import Questions from './Questions';
 import Spinner from '../common/Spinner';
 
 const classes = {
@@ -118,7 +118,7 @@ class Quiz extends Component {
           <Spinner />
         ) : (
           <div>
-            <Question
+            <Questions
               currentQuiz={this.props.currentQuiz}
               handleInputChange={this.handleInputChange}
             />
@@ -144,4 +144,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { fetchCurrentQuiz })(Quiz);
+export default connect(
+  mapStateToProps,
+  { fetchCurrentQuiz }
+)(Quiz);
