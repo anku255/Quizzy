@@ -60,7 +60,7 @@ router.get('/api/admin/questions', adminController.getUnpublishedQuestions);
 // Create a new quiz
 router.post('/api/admin/quiz/new', adminController.addQuiz);
 
-// Get recent quizzes
-router.get('/api/admin/quiz', adminController.getRecentQuizzes);
+// Get quizzes
+router.get('/api/admin/quiz', adminController.getQuizzes);
 
 module.exports = router;

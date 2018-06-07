@@ -50,8 +50,8 @@ exports.addQuiz = async (req, res) => {
   }
 };
 
-// Get recent quizzes
-exports.getRecentQuizzes = async (req, res) => {
+// Get quizzes
+exports.getQuizzes = async (req, res) => {
   if (!req.user) {
     res.status(401).json({ notLoggedIn: 'You need to be logged in!' });
   }
