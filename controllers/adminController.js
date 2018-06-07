@@ -49,3 +49,23 @@ exports.addQuiz = async (req, res) => {
     res.status(400).send(err);
   }
 };
+
+// Get recent quizzes
+exports.getRecentQuizzes = async (req, res) => {
+  if (!req.user) {
+    res.status(401).json({ notLoggedIn: 'You need to be logged in!' });
+  }
+
+  // Check if the user has ADMIN_ACCESS_LEVEL
+  if (req.user.accessLevel !== ADMIN_LEVEL) {
+    return res.status(401).json({
+      accessDenied: "You dont' have required permission."
+    });
+  }
+
+  const quizzes = await Quiz.find()
+    .sort({ startTime: -1 })
+    .limit(5);
+
+  res.json(quizzes);
+};
