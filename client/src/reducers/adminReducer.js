@@ -9,7 +9,8 @@ export default (state = initialState, action) => {
     case FETCH_UNPUBLISHED_QUESTIONS:
       return {
         ...state,
-        questions: action.payload
+        questions: action.payload,
+        loading: false
       };
     default:
       return state;

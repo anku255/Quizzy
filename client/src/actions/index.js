@@ -151,3 +151,13 @@ export const getUnpublisehdQuestions = () => async dispatch => {
     payload: res.data
   });
 };
+
+// Create a new quiz
+export const addQuiz = quizData => async dispatch => {
+  try {
+    const res = await axios.post('/api/admin/quiz/new', quizData);
+    dispatch({ type: GET_SUCCESS_MSG, payload: res.data });
+  } catch (err) {
+    dispatch({ type: GET_ERROR_MSG, payload: err.response.data });
+  }
+};

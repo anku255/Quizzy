@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getUnpublisehdQuestions } from '../../actions';
+import { ToastContainer, toast } from 'react-toastify';
+import {
+  getUnpublisehdQuestions,
+  addQuiz,
+  clearNotifications
+} from '../../actions';
+import Spinner from '../common/Spinner';
 import Questions from './Questions';
 import QuizFormModal from './QuizFormModal';
 
@@ -9,7 +15,8 @@ class QuestionsManager extends Component {
     super(props);
 
     this.state = {
-      selectedQuestions: {}
+      selectedQuestions: {},
+      loading: true
     };
 
     this.onSelectQuestion = this.onSelectQuestion.bind(this);
@@ -18,6 +25,24 @@ class QuestionsManager extends Component {
 
   componentDidMount() {
     this.props.getUnpublisehdQuestions();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Map loading prop to state
+    this.setState({ loading: nextProps.loading });
+
+    if (Object.keys(nextProps.errors).length > 0) {
+      toast.error(JSON.stringify(nextProps.errors));
+      return this.props.clearNotifications();
+    }
+
+    const { quizSubmissionSuccess } = nextProps.success;
+    if (quizSubmissionSuccess) {
+      toast.success(quizSubmissionSuccess);
+      // console.log the new quiz
+      console.log(nextProps.success.newQuiz);
+      return this.props.clearNotifications();
+    }
   }
 
   onSelectQuestion(e, quesId) {
@@ -59,8 +84,8 @@ class QuestionsManager extends Component {
     );
 
     const quizData = { ...value, questions };
-    // TODO: Sent quizData to the server
-    // TODO: call toggleModal
+    this.props.addQuiz(quizData);
+    this.toggleModal();
   }
 
   render() {
@@ -73,28 +98,38 @@ class QuestionsManager extends Component {
           toggleModal={this.toggleModal}
           handleSubmit={this.handleQuizFormSubmit}
         />
-        <Questions
-          Questions={this.props.questions}
-          onSelectQuestion={this.onSelectQuestion}
-        />
-        <div className="is-centered">
-          <button
-            className="button is-primary"
-            onClick={this.onSubmit.bind(this)}
-          >
-            Submit
-          </button>
-        </div>
+        {this.state.loading ? (
+          <Spinner />
+        ) : (
+          <React.Fragment>
+            <Questions
+              Questions={this.props.questions}
+              onSelectQuestion={this.onSelectQuestion}
+            />
+            <div className="is-centered">
+              <button
+                className="button is-primary"
+                onClick={this.onSubmit.bind(this)}
+              >
+                Submit
+              </button>
+            </div>
+          </React.Fragment>
+        )}
+        <ToastContainer position="top-center" />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  questions: state.admin.questions
+  questions: state.admin.questions,
+  loading: state.admin.loading,
+  errors: state.notification.errors,
+  success: state.notification.success
 });
 
 export default connect(
   mapStateToProps,
-  { getUnpublisehdQuestions }
+  { getUnpublisehdQuestions, addQuiz, clearNotifications }
 )(QuestionsManager);
