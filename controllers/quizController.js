@@ -23,18 +23,6 @@ exports.getCurrentQuiz = async (req, res) => {
   res.json(questions);
 };
 
-// Create a new Quiz
-exports.addQuiz = async (req, res) => {
-  const newQuiz = await new Quiz({
-    startTime: new Date(req.body.startTime),
-    endTime: new Date(req.body.endTime),
-    questions: req.body.questions,
-    description: req.body.description || ''
-  }).save();
-
-  res.json(newQuiz);
-};
-
 // TODO
 // The object ID of current quiz will be present
 // in req.body.currentQuizId
