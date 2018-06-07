@@ -106,3 +106,13 @@ span.choice > p {
   border: 0.5px solid black;
   min-height: 118px;
 }
+
+// QuestionManager
+.selected-card {
+  background-color: rgba(221, 216, 216, 0.658);
+}
+
+.is-centered {
+  display: flex;
+  justify-content: center;
+}

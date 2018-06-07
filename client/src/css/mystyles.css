@@ -6502,3 +6502,10 @@ span.choice > p {
   width: 100%;
   border: 0.5px solid black;
   min-height: 118px; }
+
+.selected-card {
+  background-color: rgba(221, 216, 216, 0.658); }
+
+.is-centered {
+  display: flex;
+  justify-content: center; }
