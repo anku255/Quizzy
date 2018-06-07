@@ -11,3 +11,4 @@ export const CLEAR_NOTIFICATIONS = 'clear_notifications';
 export const FETCH_QUIZ_HISTORY = 'fetch_quiz_history';
 export const FETCH_QUIZ_STATS = 'fetch_quiz_stats';
 export const FETCH_UNPUBLISHED_QUESTIONS = 'fetch_unpublished_questions';
+export const FETCH_QUIZZES = 'fetch_quizzes';

@@ -10,7 +10,8 @@ import {
   CLEAR_NOTIFICATIONS,
   FETCH_QUIZ_HISTORY,
   FETCH_QUIZ_STATS,
-  FETCH_UNPUBLISHED_QUESTIONS
+  FETCH_UNPUBLISHED_QUESTIONS,
+  FETCH_QUIZZES
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -160,4 +161,13 @@ export const addQuiz = quizData => async dispatch => {
   } catch (err) {
     dispatch({ type: GET_ERROR_MSG, payload: err.response.data });
   }
+};
+
+// Get recent quizzes
+export const getQuizzes = () => async dispatch => {
+  const res = await axios.get('/api/admin/quiz');
+  dispatch({
+    type: FETCH_QUIZZES,
+    payload: res.data
+  });
 };

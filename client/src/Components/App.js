@@ -16,6 +16,7 @@ import EditProfile from './Form/EditProfile';
 import QuizHistory from './Dashboard/QuizHistory/QuizHistory';
 import StatsMain from './Stats/StatsMain';
 import QuestionsManager from './Admin/QuestionsManager';
+import QuizManager from './Admin/QuizManager';
 
 class App extends Component {
   componentDidMount = () => {
@@ -87,6 +88,15 @@ class App extends Component {
               RequiredAccessLevel={ADMIN_LEVEL}
               path="/admin/questions"
               component={QuestionsManager}
+            />
+          </Switch>
+          <Switch>
+            <PrivateRoute
+              exact
+              user={this.props.user}
+              RequiredAccessLevel={ADMIN_LEVEL}
+              path="/admin/quizzes"
+              component={QuizManager}
             />
           </Switch>
           <Route path="/current/answers" component={Answers} />
