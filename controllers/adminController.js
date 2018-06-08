@@ -20,7 +20,7 @@ exports.getUnpublishedQuestions = async (req, res) => {
   res.json(questions);
 };
 
-// Create a new Quiz
+// Create or Edit a  Quiz
 exports.addQuiz = async (req, res) => {
   if (!req.user) {
     res.status(401).json({ notLoggedIn: 'You need to be logged in!' });
@@ -34,17 +34,33 @@ exports.addQuiz = async (req, res) => {
   }
 
   try {
-    const newQuiz = await new Quiz({
-      startTime: new Date(req.body.startTime),
-      endTime: new Date(req.body.endTime),
-      questions: req.body.questions,
-      description: req.body.description || ''
-    }).save();
+    // Check if quiz contains an _id field
+    if (req.body._id) {
+      // Update the quiz
+      const newQuiz = await Quiz.findByIdAndUpdate(req.body._id, {
+        startTime: new Date(req.body.startTime),
+        endTime: new Date(req.body.endTime),
+        description: req.body.description || ''
+      });
 
-    res.json({
-      quizSubmissionSuccess: 'Quiz Submission Successful!',
-      newQuiz
-    });
+      res.json({
+        quizEditSuccess: 'Quiz edited Successfully!',
+        newQuiz
+      });
+    } else {
+      // Create a new quiz
+      const newQuiz = await new Quiz({
+        startTime: new Date(req.body.startTime),
+        endTime: new Date(req.body.endTime),
+        questions: req.body.questions,
+        description: req.body.description || ''
+      }).save();
+
+      res.json({
+        quizSubmissionSuccess: 'Quiz Submission Successful!',
+        newQuiz
+      });
+    }
   } catch (err) {
     res.status(400).send(err);
   }

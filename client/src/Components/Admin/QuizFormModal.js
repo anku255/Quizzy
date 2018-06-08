@@ -12,6 +12,14 @@ class QuizFormModal extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    // Initialize form values
+    if (nextProps.quiz) {
+      const { startTime, endTime, description } = nextProps.quiz;
+      this.setState({ startTime, endTime, description });
+    }
+  }
+
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -34,7 +42,6 @@ class QuizFormModal extends Component {
                     name="startTime"
                     className="input is-primary"
                     type="datetime-local"
-                    placeholder="Start Time"
                     onChange={this.handleChange}
                   />
                 </div>
@@ -46,7 +53,6 @@ class QuizFormModal extends Component {
                     name="endTime"
                     className="input is-primary"
                     type="datetime-local"
-                    placeholder="End Time"
                     onChange={this.handleChange}
                   />
                 </div>
@@ -59,6 +65,7 @@ class QuizFormModal extends Component {
                     className="textarea is-primary"
                     placeholder="Description"
                     onChange={this.handleChange}
+                    value={this.state.description}
                   />
                 </div>
               </div>
