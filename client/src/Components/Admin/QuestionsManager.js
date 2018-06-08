@@ -74,7 +74,7 @@ class QuestionsManager extends Component {
     this.toggleModal();
   }
 
-  handleQuizFormSubmit(e, value) {
+  handleQuizFormSubmit(e, values) {
     e.preventDefault();
 
     // Create an array quesIds of selected questions
@@ -83,7 +83,7 @@ class QuestionsManager extends Component {
       key => selectedQuestions[key]
     );
 
-    const quizData = { ...value, questions };
+    const quizData = { ...values, questions };
     this.props.addQuiz(quizData);
     this.toggleModal();
   }
