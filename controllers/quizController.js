@@ -23,21 +23,6 @@ exports.getCurrentQuiz = async (req, res) => {
   res.json(questions);
 };
 
-// TODO
-// The object ID of current quiz will be present
-// in req.body.currentQuizId
-exports.setCurrentQuiz = async (req, res) => {
-  // get currentQuiz from DB
-  const currentQuiz = await CurrentQuiz.findOne();
-
-  // Update it's currentQuizId
-  if (req.body.currentQuizId) {
-    currentQuiz['currentQuizId'] = req.body.currentQuizId;
-    currentQuiz.save();
-  }
-  res.json(currentQuiz);
-};
-
 // Submit Current Quiz
 exports.submitCurrentQuiz = async (req, res) => {
   // get currentQuiz from DB

@@ -38,8 +38,6 @@ router.post('/api/question/submit', questionController.submitQuestion);
 
 // Quiz Routes
 
-router.post('/api/setCurrentQuiz', quizController.setCurrentQuiz);
-
 router.get('/api/quiz/current', quizController.getCurrentQuiz);
 
 router.post('/api/quiz/current', quizController.submitCurrentQuiz);
@@ -65,5 +63,7 @@ router.get('/api/admin/quiz', adminController.getQuizzes);
 
 // Publish quiz
 router.post('/api/admin/quiz/publish', adminController.publishQuiz);
+
+router.post('/api/admin/setCurrentQuiz', adminController.setCurrentQuiz);
 
 module.exports = router;
