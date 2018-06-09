@@ -13,8 +13,7 @@ exports.getQuestions = async (req, res) => {
 
   const questionsPromise = Question.find({ category, published: true })
     .skip(skip)
-    .limit(limit)
-    .sort({ index: 'asc' });
+    .limit(limit);
 
   const countPromise = Question.count({ category });
 
