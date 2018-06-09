@@ -38,7 +38,7 @@ const DashboardHeader = ({ user }) => {
               Semester: {user.semester} {EditProfileButton}{' '}
             </span>
           ) : (
-            <span>Add your semester</span>
+            <span>Add your semester {EditProfileButton}</span>
           )}
         </h1>
         {/* Show New Question button only when user has access greater than 2 */}
