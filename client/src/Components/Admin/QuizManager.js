@@ -4,7 +4,8 @@ import {
   getQuizzes,
   addQuiz,
   clearNotifications,
-  publishQuiz
+  publishQuiz,
+  setCurrentQuiz
 } from '../../actions';
 import { ToastContainer, toast } from 'react-toastify';
 import Quizzes from './Quizzes';
@@ -23,6 +24,9 @@ class QuizManager extends Component {
     this.handleEditBtnClick = this.handleEditBtnClick.bind(this);
     this.handleQuizFormSubmit = this.handleQuizFormSubmit.bind(this);
     this.handlePublishBtnClick = this.handlePublishBtnClick.bind(this);
+    this.handleSetCurrentQuizBtnClick = this.handleSetCurrentQuizBtnClick.bind(
+      this
+    );
   }
 
   componentDidMount() {
@@ -71,6 +75,11 @@ class QuizManager extends Component {
     this.props.publishQuiz(quiz);
   }
 
+  handleSetCurrentQuizBtnClick(e, quiz) {
+    e.preventDefault();
+    this.props.setCurrentQuiz(quiz);
+  }
+
   render() {
     return (
       <div className="container" style={{ margin: '20px auto' }}>
@@ -89,6 +98,7 @@ class QuizManager extends Component {
             quizzes={this.props.quizzes}
             onEditBtnClick={this.handleEditBtnClick}
             onPublishBtnClick={this.handlePublishBtnClick}
+            onSetCurrentQuizBtnClick={this.handleSetCurrentQuizBtnClick}
           />
         )}
         <ToastContainer position="top-center" />
@@ -106,5 +116,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getQuizzes, addQuiz, clearNotifications, publishQuiz }
+  { getQuizzes, addQuiz, clearNotifications, publishQuiz, setCurrentQuiz }
 )(QuizManager);

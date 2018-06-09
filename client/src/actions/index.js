@@ -181,3 +181,13 @@ export const publishQuiz = quiz => async dispatch => {
     dispatch({ type: GET_ERROR_MSG, payload: err.response.data });
   }
 };
+
+// set current quiz
+export const setCurrentQuiz = quiz => async dispatch => {
+  try {
+    const res = await axios.post('/api/admin/setCurrentQuiz', quiz);
+    dispatch({ type: GET_SUCCESS_MSG, payload: res.data });
+  } catch (err) {
+    dispatch({ type: GET_ERROR_MSG, payload: err.response.data });
+  }
+}

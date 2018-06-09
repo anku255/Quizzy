@@ -14,7 +14,12 @@ const QuizCardContent = ({ quiz }) => (
   </div>
 );
 
-const QuizActions = ({ quiz, onEditBtnClick, onPublishBtnClick }) => (
+const QuizActions = ({
+  quiz,
+  onEditBtnClick,
+  onPublishBtnClick,
+  onSetCurrentQuizBtnClick
+}) => (
   <footer
     className="card-footer"
     style={{ display: 'block', padding: '5px 0px' }}
@@ -33,7 +38,10 @@ const QuizActions = ({ quiz, onEditBtnClick, onPublishBtnClick }) => (
         >
           Publish
         </button>
-        <button className="button is-success is-outlined">
+        <button
+          className="button is-success is-outlined"
+          onClick={e => onSetCurrentQuizBtnClick(e, quiz)}
+        >
           Set Current Quiz
         </button>
       </div>
@@ -41,7 +49,12 @@ const QuizActions = ({ quiz, onEditBtnClick, onPublishBtnClick }) => (
   </footer>
 );
 
-const Quizzes = ({ quizzes, onEditBtnClick, onPublishBtnClick }) => {
+const Quizzes = ({
+  quizzes,
+  onEditBtnClick,
+  onPublishBtnClick,
+  onSetCurrentQuizBtnClick
+}) => {
   return quizzes.map(quiz => {
     return (
       <div key={quiz._id} className="card" style={{ margin: '20px auto' }}>
@@ -50,6 +63,7 @@ const Quizzes = ({ quizzes, onEditBtnClick, onPublishBtnClick }) => {
           quiz={quiz}
           onEditBtnClick={onEditBtnClick}
           onPublishBtnClick={onPublishBtnClick}
+          onSetCurrentQuizBtnClick={onSetCurrentQuizBtnClick}
         />
       </div>
     );
