@@ -41,7 +41,7 @@ exports.getQuestions = async (req, res) => {
 
 exports.addQuestion = async (req, res) => {
   // Check if the user has MODERATER_ACCESS_LEVEL
-  if (req.user.accessLevel !== MODERATOR_LEVEL) {
+  if (req.user.accessLevel < MODERATOR_LEVEL) {
     return res.status(401).json({
       quesSubmissionError: "You dont' have permission to add a question."
     });
