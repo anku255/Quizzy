@@ -171,3 +171,13 @@ export const getQuizzes = () => async dispatch => {
     payload: res.data
   });
 };
+
+// Publish a quiz
+export const publishQuiz = quiz => async dispatch => {
+  try {
+    const res = await axios.post('/api/admin/quiz/publish', quiz);
+    dispatch({ type: GET_SUCCESS_MSG, payload: res.data });
+  } catch (err) {
+    dispatch({ type: GET_ERROR_MSG, payload: err.response.data });
+  }
+};

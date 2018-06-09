@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getQuizzes, addQuiz, clearNotifications } from '../../actions';
+import {
+  getQuizzes,
+  addQuiz,
+  clearNotifications,
+  publishQuiz
+} from '../../actions';
 import { ToastContainer, toast } from 'react-toastify';
 import Quizzes from './Quizzes';
 import Spinner from '../common/Spinner';
@@ -17,6 +22,7 @@ class QuizManager extends Component {
 
     this.handleEditBtnClick = this.handleEditBtnClick.bind(this);
     this.handleQuizFormSubmit = this.handleQuizFormSubmit.bind(this);
+    this.handlePublishBtnClick = this.handlePublishBtnClick.bind(this);
   }
 
   componentDidMount() {
@@ -32,9 +38,8 @@ class QuizManager extends Component {
       return this.props.clearNotifications();
     }
 
-    const { quizEditSuccess } = nextProps.success;
-    if (quizEditSuccess) {
-      toast.success(quizEditSuccess);
+    if (Object.keys(nextProps.success).length > 0) {
+      toast.success(JSON.stringify(nextProps.success));
       // console.log the new quiz
       console.log(nextProps.success.newQuiz);
       return this.props.clearNotifications();
@@ -61,6 +66,11 @@ class QuizManager extends Component {
     this.toggleModal();
   }
 
+  handlePublishBtnClick(e, quiz) {
+    e.preventDefault();
+    this.props.publishQuiz(quiz);
+  }
+
   render() {
     return (
       <div className="container" style={{ margin: '20px auto' }}>
@@ -78,6 +88,7 @@ class QuizManager extends Component {
           <Quizzes
             quizzes={this.props.quizzes}
             onEditBtnClick={this.handleEditBtnClick}
+            onPublishBtnClick={this.handlePublishBtnClick}
           />
         )}
         <ToastContainer position="top-center" />
@@ -95,5 +106,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getQuizzes, addQuiz, clearNotifications }
+  { getQuizzes, addQuiz, clearNotifications, publishQuiz }
 )(QuizManager);
