@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { clearNotifications } from '../../actions';
+import { ADMIN_LEVEL } from '../../constants/accessLevel';
 import { ToastContainer, toast } from 'react-toastify';
 import DashboardHeader from './DashboardHeader';
 import DashboardNavigation from './DashboardNavigation';
 import DashboardHistory from './DashboardHistory';
+import DashboardAdmin from './DashboardAdmin';
 
 class Dashboard extends Component {
   componentWillReceiveProps(nextProps) {
@@ -22,6 +24,7 @@ class Dashboard extends Component {
         <DashboardHeader user={this.props.user} />
         <DashboardNavigation />
         <DashboardHistory />
+        {this.props.user.accessLevel >= ADMIN_LEVEL ? <DashboardAdmin /> : ''}
       </div>
     );
   }
@@ -32,4 +35,7 @@ const mapStateToProps = state => ({
   success: state.notification.success
 });
 
-export default connect(mapStateToProps, { clearNotifications })(Dashboard);
+export default connect(
+  mapStateToProps,
+  { clearNotifications }
+)(Dashboard);
