@@ -63,4 +63,7 @@ router.post('/api/admin/quiz/new', adminController.addQuiz);
 // Get quizzes
 router.get('/api/admin/quiz', adminController.getQuizzes);
 
+// Publish quiz
+router.post('/api/admin/quiz/publish', adminController.publishQuiz);
+
 module.exports = router;

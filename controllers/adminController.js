@@ -85,3 +85,34 @@ exports.getQuizzes = async (req, res) => {
 
   res.json(quizzes);
 };
+
+// Publish all the questions in a quiz
+exports.publishQuiz = async (req, res) => {
+  if (!req.user) {
+    res.status(401).json({ notLoggedIn: 'You need to be logged in!' });
+  }
+
+  // Check if the user has ADMIN_ACCESS_LEVEL
+  if (req.user.accessLevel !== ADMIN_LEVEL) {
+    return res.status(401).json({
+      accessDenied: "You dont' have required permission."
+    });
+  }
+
+  const { questions } = req.body;
+  if (!questions) {
+    return res.status(400).json({ noQuestions: 'No questions found in quiz' });
+  }
+
+  const criteria = {
+    _id: { $in: questions }
+  };
+
+  const result = await Question.update(
+    criteria,
+    { published: true },
+    { multi: true }
+  );
+
+  res.json({ published: 'Quiz published successfully!' });
+};
