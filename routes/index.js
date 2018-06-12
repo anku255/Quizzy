@@ -28,6 +28,9 @@ router.get('/api/logout', authController.logout);
 // Update user profile
 router.post('/api/profile', authController.updateUserProfile);
 
+// Delete user account
+router.delete('/api/profile', authController.deleteUserAccount);
+
 // Question Routes
 
 router.get('/api/questions/:category/:page', questionController.getQuestions);
