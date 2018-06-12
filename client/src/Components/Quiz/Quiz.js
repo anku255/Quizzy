@@ -68,6 +68,19 @@ class Quiz extends Component {
     modal.classList.toggle('is-active');
   }
 
+  // Displays CurrentQuiz unavailable card
+  renderCurrentQuizUnavailable() {
+    return (
+      <div className="card" style={{ width: '100%', margin: '40px 0' }}>
+        <header className="card-header">
+          <p className="is-size-5" style={{ margin: '0 auto', color: 'red' }}>
+            Current Quiz is unavailable now! Please check after some time.
+          </p>
+        </header>
+      </div>
+    );
+  }
+
   renderModal() {
     return (
       <div className="modal">
@@ -114,10 +127,16 @@ class Quiz extends Component {
           Current Quiz
         </h2>
         {this.renderModal()}
-        {this.props.loading ? (
+        {/* Nested Ternary!!!
+          If currentQuiz array is empty and loading is false then
+          show currentQuizUnavailable card
+        */}
+        {this.props.currentQuiz.length === 0 && !this.props.loading ? (
+          this.renderCurrentQuizUnavailable() // Otheriwise If loading is true then show loading else show Questions
+        ) : this.props.loading ? (
           <Spinner />
         ) : (
-          <div>
+          <React.Fragment>
             <Questions
               currentQuiz={this.props.currentQuiz}
               handleInputChange={this.handleInputChange}
@@ -130,7 +149,7 @@ class Quiz extends Component {
                 Submit
               </button>
             </div>
-          </div>
+          </React.Fragment>
         )}
       </div>
     );
