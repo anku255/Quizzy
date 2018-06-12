@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
-import { submitQuizResponse } from '../../actions';
+import { submitQuizResponse, clearNotifications } from '../../actions';
 import Solution from './Solution';
 
 class Answers extends Component {
@@ -42,12 +42,14 @@ class Answers extends Component {
   componentWillReceiveProps(nextProps) {
     const { submissonError } = nextProps.errors;
     if (submissonError) {
-      return toast.error(submissonError);
+      toast.error(submissonError);
+      return this.props.clearNotifications();
     }
 
     const { submissionSuccess } = nextProps.success;
     if (submissionSuccess) {
-      return toast.success(submissionSuccess);
+      toast.success(submissionSuccess);
+      return this.props.clearNotifications();
     }
   }
 
@@ -85,4 +87,7 @@ const mapStateToProps = state => ({
   success: state.notification.success
 });
 
-export default connect(mapStateToProps, { submitQuizResponse })(Answers);
+export default connect(
+  mapStateToProps,
+  { submitQuizResponse, clearNotifications }
+)(Answers);
