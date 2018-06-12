@@ -190,4 +190,11 @@ export const setCurrentQuiz = quiz => async dispatch => {
   } catch (err) {
     dispatch({ type: GET_ERROR_MSG, payload: err.response.data });
   }
-}
+};
+
+// delete user account
+export const deleteUserAccount = history => async dispatch => {
+  // eslint-disable-next-line
+  const res = await axios.delete('/api/profile');
+  history.push('/');
+};
