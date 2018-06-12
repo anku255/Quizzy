@@ -26,18 +26,23 @@ exports.getCurrentQuiz = async (req, res) => {
 // Submit Current Quiz
 exports.submitCurrentQuiz = async (req, res) => {
   // get currentQuiz from DB
-  const currentQuiz = await CurrentQuiz.findOne();
-  const currentQuizId = currentQuiz.currentQuizId.toString();
+  const currentQuiz = await CurrentQuiz.findOne().populate('currentQuizId');
+  const currentQuizId = currentQuiz.currentQuizId._id.toString();
 
   // If user has submitted already, return early
   if (req.user.lastSubmission === currentQuizId)
     return res
       .status(400)
       .json({ submissonError: 'You have already submitted this quiz!' });
-  else {
-    req.user.lastSubmission = currentQuizId;
-    req.user.save();
-  }
+
+  if (!validateSubmission(currentQuiz.currentQuizId))
+    return res
+      .status(400)
+      .json({ submissonError: 'Quiz submission time is over!' });
+
+  // Otherwise Update user's lastSubmission
+  req.user.lastSubmission = currentQuizId;
+  req.user.save();
 
   const userResult = req.body.userResult;
   const userResponse = req.body.userResponse;
@@ -119,6 +124,14 @@ exports.getQuizHistory = async (req, res) => {
     quizzes,
     userResponses
   });
+};
+
+// Returns true if submission time is within quiz's endTime
+validateSubmission = quiz => {
+  const quizEndTime = new Date(quiz.endTime).getTime();
+  const currentTime = new Date().getTime();
+
+  return quizEndTime > currentTime;
 };
 
 // Saves the quiz history
